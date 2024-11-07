@@ -1,0 +1,10 @@
+PROJECT(CFDMiner CXX)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -Wall -Wextra")
+FILE(GLOB_RECURSE DataSrcs data/*.cpp)
+FILE(GLOB_RECURSE AlgSrcs algorithms/*.cpp)
+FILE(GLOB_RECURSE UtilSrcs util/*.cpp)
+FILE(GLOB_RECURSE FGCStream FGC-Stream/*.cpp)
+ADD_EXECUTABLE(CFDMiner main_CFDMiner.cpp ${DataSrcs} ${AlgSrcs} ${UtilSrcs})
+ADD_EXECUTABLE(FGC_Stream_CFDMiner FGC-Stream/main.cpp ${DataSrcs} ${AlgSrcs} ${UtilSrcs} ${FGCStream})

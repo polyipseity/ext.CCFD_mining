@@ -1,0 +1,9 @@
+/datasets
+/CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+converted_dataset.txt
+CFDMiner_ccfd.txt
+FGC_Stream_CFDMiner_ccfd.txt
+Makefile
+main.cpp
