@@ -6,4 +6,4 @@ converted_dataset.txt
 CFDMiner_ccfd.txt
 FGC_Stream_CFDMiner_ccfd.txt
 Makefile
-main.cpp
+main_test.cpp
