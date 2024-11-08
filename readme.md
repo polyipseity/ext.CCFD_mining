@@ -11,7 +11,9 @@ Usage: `./CFDMiner [csv_file_path] [minsupp] [maxsize]`
 where:
 - `csv_file_path` is the path to the input comma-separated CSV data file.
 - `minsupp` is the minimum support threshold, which is a float number in the range [0, 1].
-- `maxsize` is the maximum size of the itemset, which is an integer number.
+- `maxsize` is the maximum size of the itemset, which is an integer number.  
+
+The output CCFDs are stored in the file `CFDMiner_ccfd.txt` in the same directory as the executable file.
 
 ## FGC-Stream + CFDMiner
 The executable file is `FGC_Stream_CFDMiner`, corresponding to `FGC-Stream/main.cpp`.  
@@ -21,3 +23,5 @@ where:
 - `minsupp` is the minimum support threshold, which is a float number in the range [0, 1].
 - `window_size` is the size of the sliding window, which is an integer number.
 - `exit_at` is the number of transactions to process before exiting, which is an integer number.
+
+The output CCFDs are stored in the file `FGC_Stream_CFDMiner_ccfd.txt` in the same directory as the executable file.
