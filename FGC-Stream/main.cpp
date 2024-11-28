@@ -101,7 +101,7 @@ void Deletion(std::set<uint32_t> t_0, int n, GenNode* root, TIDList* TList, std:
 
     for (std::multimap<uint32_t, ClosedIS*>::reverse_iterator obsIt = fObsoletes->rbegin(); obsIt != fObsoletes->rend(); ++obsIt) {
         ClosedIS* obsolete = obsIt->second;
-        dropObsolete(obsolete, ClosureList, root);
+        dropObsolete(obsolete, ClosureList, root); // bug here!!!
     }
 
     closureReset(ClosureList);
@@ -358,6 +358,85 @@ CloMapEntry* convertToCloMapEntry(ClosedIS* closedis) {
   return clomapentry;
 }
 
+std::vector<ccfd> cfdMiner(std::multimap<uint32_t, ClosedIS*> ClosureList, std::unordered_map<int, DbToken> fIntToTokenMap, std::unordered_map<DbToken, int> fTokenToIntMap, int minSupp) {
+  // create CloGenMerger by ClosureList, int_to_DbToken_map
+  std::unordered_map<HashStorer<Itemset>, CloMapEntry*> fClosures;
+
+  // convert ClosureList to fClosures
+  for (std::multimap<uint32_t, ClosedIS*>::iterator clos = ClosureList.begin(); clos != ClosureList.end(); ++clos) {
+    ClosedIS currCI = *clos->second;
+    CloMapEntry* clomapentry = convertToCloMapEntry(&currCI);
+    fClosures[HashStorer<Itemset>(clomapentry->fItems)] = clomapentry;
+  }
+  
+  // create CloGenMerger
+  CloGenMerger* clogenmerger = new CloGenMerger(fClosures, fIntToTokenMap, fTokenToIntMap);
+
+  // Do CCFD Mining
+  std::cout << "CCFD Mining..." << std::endl;
+  std::vector<ccfd> ccfd_list = clogenmerger->ccfd_mine(minSupp);
+
+  return ccfd_list;
+}
+
+void collect_ccfds(std::vector<ccfd>& all_ccfds, std::vector<ccfd>& new_ccfds) {
+  for (ccfd new_ccfd : new_ccfds) {
+    bool conflict = false;
+    for (ccfd all_ccfd : all_ccfds) {
+      if (all_ccfd.is_conflicting(new_ccfd)) {
+        conflict = true;
+        // delete all_ccfd from all_ccfds
+        all_ccfds.erase(std::find(all_ccfds.begin(), all_ccfds.end(), all_ccfd));
+      }
+    }
+    if (!conflict) {
+      all_ccfds.push_back(new_ccfd);
+    }
+  }
+}
+
+
+void output_ccfd(std::vector<ccfd> ccfd_list, std::unordered_map<int, DbToken> fIntToTokenMap, std::string output_file) {
+  // Output the CCFDs to a file
+  std::ofstream ofile(output_file);
+  for (ccfd ccfd : ccfd_list) {
+    std::stringstream ssH;
+    std::stringstream ssV;
+    ssH << "[";
+    ssV << "(";
+    bool first = true;
+    for (int i : ccfd.lhs) {
+        const auto tok = fIntToTokenMap[i];
+        if (first) {
+            first = false;
+            ssH << tok.getAttr();
+            ssV << tok.getValue();
+        }
+        else {
+            ssH << ", " << tok.getAttr();
+            ssV << ", " << tok.getValue();
+        }
+    }
+
+    ssH << "] => ";
+    ssV << " || ";
+
+    std::string headH = ssH.str();
+    std::string headV = ssV.str();
+    for (int i : ccfd.rhs) {
+        const auto tok = fIntToTokenMap[i];
+        ofile << headH << tok.getAttr() << ", " << headV << tok.getValue() << ")" << std::endl;
+        // std::cout << headH << tok.getAttr() << ", " << headV << tok.getValue() << ")" << std::endl;
+        // e.g. [account_type] => acount_branch, (a55 || 10023)
+        // headH = [account_type] =>
+        // tok.getAttr() = acount_branch
+        // headV = (a55 || 
+        // tok.getValue() = 10023
+    }
+  }
+  ofile.close();
+}
+
 
 // template override due to what seems to be a VS bug ?
 // comment this function, and compare readings of trx with debug/release configs
@@ -402,6 +481,7 @@ int main(int argc, char** argv)
 
   std::unordered_map<int, DbToken> fIntToTokenMap;
   std::unordered_map<DbToken, int> fTokenToIntMap;
+  std::vector<ccfd> all_ccfds;
   int transaction_number = convert_dataset(argv[1], "converted_dataset.txt", fTokenToIntMap, fIntToTokenMap);
   std::ifstream input("converted_dataset.txt");
 
@@ -412,9 +492,9 @@ int main(int argc, char** argv)
   if (argc < 3) return 1;
 
   float supp = std::stof(argv[2]);
-  minSupp = uint32_t(std::max(int(transaction_number * supp), 2));
+  // minSupp = uint32_t(std::max(int(transaction_number * supp), 2));
   std::cout << "Run FGC-Stream + CFDMiner on the database " << argv[1] << std::endl;
-  std::cout << "Minimal Support: " << minSupp << std::endl;
+
   
   char s[10000];
   uint32_t i = 0;
@@ -425,6 +505,8 @@ int main(int argc, char** argv)
   if (argc >= 4) {
     window_size = strtoul(argv[3], 0, 10);//1;
     std::cout << "Window size: " << window_size << std::endl;
+    minSupp = uint32_t(std::max(int(window_size * supp), 2));
+    std::cout << "Minimal Support: " << minSupp << std::endl;
 
     TListByID = new std::set<uint32_t> * [window_size];
     for (int k = 0; k < window_size; k++) {
@@ -521,7 +603,6 @@ int main(int argc, char** argv)
 
     TListByID[i % window_size]->clear();
     TListByID[i % window_size]->insert(t_n.begin(), t_n.end());
-    
 
     if (i % 1000 == 0) {
       std::cout << i << " transactions processed" << std::endl;
@@ -530,26 +611,23 @@ int main(int argc, char** argv)
       auto stop = std::chrono::high_resolution_clock::now();
       std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms elapsed between start and current transaction" << std::endl;
     }
+    int cfd_miner_interval = window_size / 4;
+    if (i >= window_size && i % cfd_miner_interval == 0) {
+      std::vector<ccfd> ccfd_list = cfdMiner(ClosureList, fIntToTokenMap, fTokenToIntMap, minSupp);
+      std::cout << "CCFDs found in this CFDMiner interval: " << ccfd_list.size() << std::endl;
+      collect_ccfds(all_ccfds, ccfd_list);
+      std::cout << "Total CCFDs found so far: " << all_ccfds.size() << std::endl;
+    }
     if (i == exitAt) {
       break;
     }
   }
 
-  // create CloGenMerger by ClosureList, int_to_DbToken_map
-  std::unordered_map<HashStorer<Itemset>, CloMapEntry*> fClosures;
-  // convert ClosureList to fClosures
-  for (std::multimap<uint32_t, ClosedIS*>::iterator clos = ClosureList.begin(); clos != ClosureList.end(); ++clos) {
-    ClosedIS currCI = *clos->second;
-    CloMapEntry* clomapentry = convertToCloMapEntry(&currCI);
-    fClosures[HashStorer<Itemset>(clomapentry->fItems)] = clomapentry;
-  }
-  
-  // create CloGenMerger
-  CloGenMerger* clogenmerger = new CloGenMerger(fClosures, fIntToTokenMap, fTokenToIntMap);
+  std::cout << "Total number of transactions processed: " << i << std::endl;
+  std::cout << "Totoal time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << " ms" << std::endl;
 
-  // Do CCFD Mining
-  std::cout << "CCFD Mining..." << std::endl;
-  clogenmerger->print_ccfd("FGC_Stream_CFDMiner_ccfd.txt", minSupp);
+  output_ccfd(all_ccfds, fIntToTokenMap, "FGC_Stream_CFDMiner_ccfd.txt");
+  
 
   /*
   bool removeEnd = true;

@@ -5,6 +5,7 @@
 #include "clogenminer.h"
 #include "genmapentry.h"
 #include "clomapentry.h"
+#include "ccfd.h"
 #include "../util/hashstorer.h"
 #include "../data/database.h"
 #include <list>
@@ -20,6 +21,7 @@ public:
     void compare(CloGenMerger&, int);
     void print_clogen_info(int);
     void print_ccfd(std::string filename, int);
+    std::vector<ccfd> ccfd_mine(int);
     
 protected:
     void merge(CloGenMerger&);

@@ -1124,19 +1124,30 @@ void dropObsolete(ClosedIS* clos, std::multimap<uint32_t, ClosedIS*>* ClosureLis
 		cg->gens.insert(gen);
 	}
 
-
 	if (clos->gtr) {
+		std::vector<std::multimap<uint32_t, ClosedIS*>::iterator> toErase;
 		for (std::multimap<uint32_t, ClosedIS*>::iterator predIt2 = cg->preds->begin(); predIt2 != cg->preds->end(); ++predIt2) {
 			if (predIt2->second == clos) {
-				cg->preds->erase(predIt2);
+				toErase.push_back(predIt2);
 			}
+		}
+		for (auto it : toErase) {
+			cg->preds->erase(it);
 		}
 	}
 
+	// if (clos->gtr) {
+	// 	for (std::multimap<uint32_t, ClosedIS*>::iterator predIt2 = cg->preds->begin(); predIt2 != cg->preds->end(); ++predIt2) {
+	// 		if (predIt2->second == clos) {
+	// 			cg->preds->erase(predIt2);
+	// 		}
+	// 	}
+	// }
+	
 	clos->deleted = true;
 	delete clos->preds;
 	delete clos->succ;
-	delete clos;
+	// delete clos; // bug here!!!
 }
 
 void dropObsoleteGs(GenNode* root, ClosedIS* clos) {
@@ -1221,7 +1232,7 @@ void dropJumper(ClosedIS* clos, std::multimap<uint32_t, ClosedIS*>* ClosureList)
 	clos->deleted = true;
 	delete clos->preds;
 	delete clos->succ;
-	delete clos;
+	// delete clos; // bug here!!!
 }
 
 void removeChildren(GenNode* gen) {

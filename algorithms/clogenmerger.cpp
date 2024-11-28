@@ -338,6 +338,54 @@ void CloGenMerger::update_int_to_token_map(CloGenMerger& new_CloGenMerger){
     }
 }
 
+std::vector<ccfd> CloGenMerger::ccfd_mine(int MinSupp){
+    std::vector<ccfd> ccfd_list;
+    for (auto it = fGenerators.begin(); it != fGenerators.end(); ++it ) {
+        if (it->second->fSupp < MinSupp) {
+            continue;
+        }
+        // CCFD Mining
+        // get the RHS of the CCFD
+        Itemset& items = it->second->fItems;
+        Itemset rhs = it->second->fClosure; // rhs is initially the closure of the generator
+        // if rhs is empty, skip
+        if (rhs.empty()) continue;
+        // if rhs is not empty
+        // make the output CCFD left-reduced
+        for (int leaveOut : items) {
+            // Generate subset of items without leaveOut
+            Itemset sub = subset(items, leaveOut);
+            if (contains(fGenerators, sub)) {
+                if (fGenerators[sub]->fSupp < MinSupp) {
+                    continue;
+                }
+                const auto& subClosure = fGenerators[sub]->fClosure;
+                std::vector<int> diff(std::max(rhs.size(), subClosure.size()));
+                auto it = std::set_difference(rhs.begin(), rhs.end(), subClosure.begin(), subClosure.end(), diff.begin());
+                if (diff.empty()) {
+                    rhs.clear();
+                    break;
+                }
+                diff.resize((int)(it - diff.begin()));
+                rhs.swap(diff);
+            }
+        }
+        // add the CCFD to the list
+        if (rhs.size()) {
+            std::set<int> lhs;
+            for (int i : *it->first.getData()) {
+                lhs.insert(i);
+            }
+            std::set<int> rhs_set;
+            for (int i : rhs) {
+                rhs_set.insert(i);
+            }
+            ccfd_list.push_back(ccfd(lhs, rhs_set, it->second->fSupp));
+        }
+    }
+    return ccfd_list;
+}
+
 void CloGenMerger::print_ccfd(std::string filename, int MinSupp){
 
     // print the CCFD to the file
