@@ -379,17 +379,18 @@ std::vector<ccfd> cfdMiner(std::multimap<uint32_t, ClosedIS*> ClosureList, std::
   return ccfd_list;
 }
 
-void collect_ccfds(std::vector<ccfd>& all_ccfds, std::vector<ccfd>& new_ccfds) {
+void collect_ccfds(std::vector<ccfd>& all_ccfds, std::vector<ccfd>& new_ccfds, std::unordered_map<int, DbToken> fIntToTokenMap) {
   for (ccfd new_ccfd : new_ccfds) {
-    bool conflict = false;
     for (ccfd all_ccfd : all_ccfds) {
-      if (all_ccfd.is_conflicting(new_ccfd)) {
-        conflict = true;
-        // delete all_ccfd from all_ccfds
-        all_ccfds.erase(std::find(all_ccfds.begin(), all_ccfds.end(), all_ccfd));
+      bool is_conflicting = all_ccfd.resolve_conflict(new_ccfd, fIntToTokenMap);
+      if (is_conflicting){
+        // delete all_ccfd if its rhs is empty
+        if (all_ccfd.rhs.empty()) {
+          all_ccfds.erase(std::find(all_ccfds.begin(), all_ccfds.end(), all_ccfd), all_ccfds.end());
+        }
       }
     }
-    if (!conflict) {
+    if (!new_ccfd.rhs.empty()) {
       all_ccfds.push_back(new_ccfd);
     }
   }
@@ -575,6 +576,7 @@ int main(int argc, char** argv)
   GenNode* root = new GenNode(1 << 31, nullptr, &EmptyClos);
   while (input.getline(s, 10000)) {
     i++;
+    // std::cout << "Processing transaction " << i << std::endl;
 
 
     // if (i == 121) {
@@ -615,7 +617,7 @@ int main(int argc, char** argv)
     if (i >= window_size && i % cfd_miner_interval == 0) {
       std::vector<ccfd> ccfd_list = cfdMiner(ClosureList, fIntToTokenMap, fTokenToIntMap, minSupp);
       std::cout << "CCFDs found in this CFDMiner interval: " << ccfd_list.size() << std::endl;
-      collect_ccfds(all_ccfds, ccfd_list);
+      collect_ccfds(all_ccfds, ccfd_list, fIntToTokenMap);
       std::cout << "Total CCFDs found so far: " << all_ccfds.size() << std::endl;
     }
     if (i == exitAt) {
