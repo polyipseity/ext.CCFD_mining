@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 
         std::ifstream ifile(csv_file_path);
         std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+        std::cout << "Reading the database from " << csv_file_path << std::endl;
         Database db = TabularDatabase::fromFile(ifile, ',');
         int db_supp = std::max(int(db.size() * supp), 2);
         std::cout << "Run CloGenMiner on the database " << csv_file_path << std::endl;

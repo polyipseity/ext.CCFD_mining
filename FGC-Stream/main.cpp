@@ -294,6 +294,7 @@ void sanityCheck_full(ClosedIS* clos, TIDList* TList) {
 
 // Function to convert dataset to integer format and store mappings
 int convert_dataset(const std::string& input_file, const std::string& output_file, std::unordered_map<DbToken, int>& fTokenToIntMap, std::unordered_map<int, DbToken>& fIntToTokenMap) {
+  std::cout << "Converting dataset to integer format..." << std::endl;
   std::ifstream infile(input_file);
   std::ofstream outfile(output_file);
   std::string line;
@@ -319,6 +320,9 @@ int convert_dataset(const std::string& input_file, const std::string& output_fil
     }
     else {
       transaction_count++;
+      if (transaction_count % 10000 == 0) {
+          std::cout << "Processed " << transaction_count << " transactions" << std::endl;
+      }
       int pos = 0;
       while (std::getline(ss, item, ',')) {
         // Remove any leading or trailing whitespace

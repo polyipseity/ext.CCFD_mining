@@ -24,6 +24,7 @@ TabularDatabase TabularDatabase::fromFile(std::ifstream& infile,
 		std::getline(infile, line);
 	int size = i - 1;
 	bool eof = false;
+	int line_count = 0;
 	while (!eof)
 	{
 	    std::istringstream iss(line);
@@ -43,7 +44,10 @@ TabularDatabase TabularDatabase::fromFile(std::ifstream& infile,
 	    	eof = true;
 	    }
     	std::getline(infile, line);
-
+		line_count++;
+		if (line_count % 10000 == 0) {
+			std::cout << line_count << " lines of data loaded" << std::endl;
+		}
 	}
 	return db;
 }
