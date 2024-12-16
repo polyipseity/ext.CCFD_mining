@@ -448,7 +448,7 @@ void CloGenMerger::print_ccfd(std::string filename, int MinSupp){
             std::string headV = ssV.str();
             for (int i : rhs) {
                 const auto tok = fIntToTokenMap[i];
-                ofile << headH << tok.getAttr() << ", " << headV << tok.getValue() << ")" << std::endl;
+                ofile << headH << tok.getAttr() << ", " << headV << tok.getValue() << ")" << ", support: " << it->second->fSupp << std::endl;
                 // std::cout << headH << tok.getAttr() << ", " << headV << tok.getValue() << ")" << std::endl;
                 // e.g. [account_type] => acount_branch, (a55 || 10023)
                 // headH = [account_type] =>

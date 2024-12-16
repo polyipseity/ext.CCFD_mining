@@ -430,7 +430,7 @@ void output_ccfd(std::vector<ccfd> ccfd_list, std::unordered_map<int, DbToken> f
     std::string headV = ssV.str();
     for (int i : ccfd.rhs) {
         const auto tok = fIntToTokenMap[i];
-        ofile << headH << tok.getAttr() << ", " << headV << tok.getValue() << ")" << std::endl;
+        ofile << headH << tok.getAttr() << ", " << headV << tok.getValue() << ")" << ", support : " << ccfd.supp << std::endl;
         // std::cout << headH << tok.getAttr() << ", " << headV << tok.getValue() << ")" << std::endl;
         // e.g. [account_type] => acount_branch, (a55 || 10023)
         // headH = [account_type] =>
