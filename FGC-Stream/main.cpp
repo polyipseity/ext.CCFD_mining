@@ -362,7 +362,7 @@ CloMapEntry* convertToCloMapEntry(ClosedIS* closedis) {
   return clomapentry;
 }
 
-std::vector<ccfd> cfdMiner(std::multimap<uint32_t, ClosedIS*> ClosureList, std::unordered_map<int, DbToken> fIntToTokenMap, std::unordered_map<DbToken, int> fTokenToIntMap, int minSupp) {
+std::vector<ccfd> cfdMiner(std::multimap<uint32_t, ClosedIS*> ClosureList, std::unordered_map<int, DbToken> fIntToTokenMap, std::unordered_map<DbToken, int> fTokenToIntMap, int minSupp, int window_id) {
   // create CloGenMerger by ClosureList, int_to_DbToken_map
   std::unordered_map<HashStorer<Itemset>, CloMapEntry*> fClosures;
 
@@ -378,26 +378,42 @@ std::vector<ccfd> cfdMiner(std::multimap<uint32_t, ClosedIS*> ClosureList, std::
 
   // Do CCFD Mining
   std::cout << "CCFD Mining..." << std::endl;
-  std::vector<ccfd> ccfd_list = clogenmerger->ccfd_mine(minSupp);
+  std::vector<ccfd> ccfd_list = clogenmerger->ccfd_mine(minSupp, window_id);
 
   return ccfd_list;
 }
 
 void collect_ccfds(std::vector<ccfd>& all_ccfds, std::vector<ccfd>& new_ccfds, std::unordered_map<int, DbToken> fIntToTokenMap) {
-  for (ccfd new_ccfd : new_ccfds) {
-    for (ccfd all_ccfd : all_ccfds) {
-      bool is_conflicting = all_ccfd.resolve_conflict(new_ccfd, fIntToTokenMap);
-      if (is_conflicting){
-        // delete all_ccfd if its rhs is empty
-        if (all_ccfd.rhs.empty()) {
-          all_ccfds.erase(std::find(all_ccfds.begin(), all_ccfds.end(), all_ccfd), all_ccfds.end());
+  for (auto new_ccfd_it = new_ccfds.begin(); new_ccfd_it != new_ccfds.end(); ++new_ccfd_it) {
+    bool new_ccfd_without_conflict = true;
+    for (auto all_ccfd_it = all_ccfds.begin(); all_ccfd_it != all_ccfds.end(); ++all_ccfd_it) {
+      if (*new_ccfd_it == *all_ccfd_it) {
+        all_ccfd_it->update_support(*new_ccfd_it);
+        new_ccfd_without_conflict = false;
+        break;
+      }
+      else {
+        if (all_ccfd_it->resolve_conflict(*new_ccfd_it, fIntToTokenMap)) {
+          // if there is a conflict
+          if (new_ccfd_it->rhs.empty()) {
+            new_ccfd_without_conflict = false;
+            break;
+          }
         }
       }
     }
-    if (!new_ccfd.rhs.empty()) {
-      all_ccfds.push_back(new_ccfd);
+    if (new_ccfd_without_conflict) {
+      all_ccfds.push_back(*new_ccfd_it);
     }
   }
+  for (auto all_ccfd_it = all_ccfds.begin(); all_ccfd_it != all_ccfds.end(); ++all_ccfd_it) {
+    if (all_ccfd_it->rhs.empty()) {
+      all_ccfds.erase(all_ccfd_it);
+    }
+  }
+  // for (ccfd ccfd : all_ccfds) {
+  //   ccfd.print_ccfd(fIntToTokenMap);
+  // }
 }
 
 
@@ -578,6 +594,8 @@ int main(int argc, char** argv)
 
   ClosedIS EmptyClos(closSet, minSupp, &ClosureList);
   GenNode* root = new GenNode(1 << 31, nullptr, &EmptyClos);
+  int window_id = 0;
+  int cfd_miner_interval = window_size / 4;
   while (input.getline(s, 10000)) {
     i++;
     // std::cout << "Processing transaction " << i << std::endl;
@@ -617,12 +635,13 @@ int main(int argc, char** argv)
       auto stop = std::chrono::high_resolution_clock::now();
       std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms elapsed between start and current transaction" << std::endl;
     }
-    int cfd_miner_interval = window_size / 4;
+
     if (i >= window_size && i % cfd_miner_interval == 0) {
-      std::vector<ccfd> ccfd_list = cfdMiner(ClosureList, fIntToTokenMap, fTokenToIntMap, minSupp);
-      std::cout << "CCFDs found in this CFDMiner interval: " << ccfd_list.size() << std::endl;
+      window_id++;
+      std::vector<ccfd> ccfd_list = cfdMiner(ClosureList, fIntToTokenMap, fTokenToIntMap, minSupp, window_id);
+      // std::cout << "CCFDs found in this CFDMiner interval: " << ccfd_list.size() << std::endl;
       collect_ccfds(all_ccfds, ccfd_list, fIntToTokenMap);
-      std::cout << "Total CCFDs found so far: " << all_ccfds.size() << std::endl;
+      // std::cout << "Total CCFDs found so far: " << all_ccfds.size() << std::endl;
     }
     if (i == exitAt) {
       break;

@@ -338,7 +338,7 @@ void CloGenMerger::update_int_to_token_map(CloGenMerger& new_CloGenMerger){
     }
 }
 
-std::vector<ccfd> CloGenMerger::ccfd_mine(int MinSupp){
+std::vector<ccfd> CloGenMerger::ccfd_mine(int MinSupp, int window_id){
     std::vector<ccfd> ccfd_list;
     for (auto it = fGenerators.begin(); it != fGenerators.end(); ++it ) {
         if (it->second->fSupp < MinSupp) {
@@ -376,11 +376,11 @@ std::vector<ccfd> CloGenMerger::ccfd_mine(int MinSupp){
             for (int i : *it->first.getData()) {
                 lhs.insert(i);
             }
-            std::set<int> rhs_set;
             for (int i : rhs) {
+                std::set<int> rhs_set;
                 rhs_set.insert(i);
+                ccfd_list.push_back(ccfd(lhs, rhs_set, it->second->fSupp, window_id));
             }
-            ccfd_list.push_back(ccfd(lhs, rhs_set, it->second->fSupp));
         }
     }
     return ccfd_list;

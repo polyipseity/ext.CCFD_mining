@@ -21,7 +21,7 @@ public:
     void compare(CloGenMerger&, int);
     void print_clogen_info(int);
     void print_ccfd(std::string filename, int);
-    std::vector<ccfd> ccfd_mine(int);
+    std::vector<ccfd> ccfd_mine(int, int);
     
 protected:
     void merge(CloGenMerger&);

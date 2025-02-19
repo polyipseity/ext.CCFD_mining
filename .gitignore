@@ -7,3 +7,6 @@ converted_dataset.txt
 CFDMiner_ccfd.txt
 FGC_Stream_CFDMiner_ccfd.txt
 main_test.cpp
+compare_ccfd.py
+compare_ccfd.ipynb
+run.sh
