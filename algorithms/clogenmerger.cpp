@@ -391,6 +391,7 @@ void CloGenMerger::print_ccfd(std::string filename, int MinSupp){
     // print the CCFD to the file
     std::ofstream ofile(filename);
     for (auto it = fGenerators.begin(); it != fGenerators.end(); ++it ) {
+        // if the support of the generator is less than the minimum support, skip
         if (it->second->fSupp < MinSupp) {
             continue;
         }
@@ -406,10 +407,15 @@ void CloGenMerger::print_ccfd(std::string filename, int MinSupp){
             // Generate subset of items without leaveOut
             Itemset sub = subset(items, leaveOut);
             if (contains(fGenerators, sub)) {
+                // if the subset is in the generators (all generators in C2F)
+
+                // if the support of the generator is less than the minimum support, skip
                 if (fGenerators[sub]->fSupp < MinSupp) {
                     continue;
                 }
-                const auto& subClosure = fGenerators[sub]->fClosure;
+                const auto& subClosure = fGenerators[sub]->fClosure; // rhs (of the subset generator) is initially the closure of the generator
+                // actually doing:
+                // rhs = rhs \ rhs of the subset generator
                 std::vector<int> diff(std::max(rhs.size(), subClosure.size()));
                 auto it = std::set_difference(rhs.begin(), rhs.end(), subClosure.begin(), subClosure.end(), diff.begin());
                 if (diff.empty()) {
@@ -422,7 +428,7 @@ void CloGenMerger::print_ccfd(std::string filename, int MinSupp){
         }
 
         // Print the CCFD
-        if (rhs.size()) {
+        if (rhs.size()) { // if rhs is not empty
             std::stringstream ssH;
             std::stringstream ssV;
             ssH << "[";

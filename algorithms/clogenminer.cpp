@@ -46,18 +46,30 @@ std::unordered_map<HashStorer<Itemset>, CloMapEntry*> CloGenMiner::get_closures(
 }
 
 void CloGenMiner::mine(const Itemset& prefix, const std::vector<MinerNode>& items, const Itemset& parentClosure) {
-    // Reverse pre-order traversal of items
+    // Early Termination Check
+    // If the prefix size reaches the maximum allowed size (fMaxSize), stop recursion to limit exploration depth
     if (prefix.size() == fMaxSize) return;
+
+    // Iterate over items in reverse order
     for (int ix = items.size()-1; ix >= 0; ix--) {
-        const MinerNode& node = items[ix]; // node is the current item in the items vector
-        const Itemset iset = join(prefix, node.fItem); // iset is the current itemset
+        const MinerNode& node = items[ix]; // Current item to extend the prefix
+
+        // Building the Current Itemset
+        // Create a new itemset (iset) by combining the prefix with the current item
+        const Itemset iset = join(prefix, node.fItem);
+
+        // Adding Minimal Generators
+        // Attempt to register the new itemset as a minimal generator; returns pointer if added, 0 if not
         GenMapEntry* newset = addMinGen(GenMapEntry(iset, node.fSupp, node.fHash));
-        // Build suffix for next level
-        Itemset joins;
-        std::vector<MinerNode> suffix;
-        // if the number of items in the items vector minus the index of the current item minus 1 is greater than 2 times the number of attributes in the database
-        // then bucket the tids of the items in the items vector into the ijtidMap for efficiency
+        
+        // Building Suffix and Joins
+        // Initialize containers: 'joins' for items always appearing with the current item, 'suffix' for further exploration
+        Itemset joins; // Items with the same support as the current item
+        std::vector<MinerNode> suffix; // Frequent items to explore in the next recursion
+
+        // Optimization: Choose between bucketing or direct TID intersection based on remaining items
         if (items.size() - ix - 1 > 2 * fDb.nrAttrs()) {
+            // Use bucketing for efficiency when many items remain; precompute TID lists for each item
             std::unordered_map<int,TidList> ijtidMap = bucketTids(items, ix+1, node.fTids);
             // for each item in the items vector, if the item always appears in the same transaction as the current item, add the item to the joins vector
             for (uint jx = ix + 1; jx < items.size(); jx++) {
@@ -65,10 +77,10 @@ void CloGenMiner::mine(const Itemset& prefix, const std::vector<MinerNode>& item
                 TidList& ijtids = ijtidMap[jtem];
                 int ijsupp = ijtids.size();
                 if (ijsupp == node.fSupp) {
-                    joins.push_back(jtem);
+                    joins.push_back(jtem); // Add to joins if support matches (always appears with current item)
                 }
                 else if (ijsupp >= fMinSupp) {
-                    suffix.push_back(MinerNode(jtem, std::move(ijtids)));
+                    suffix.push_back(MinerNode(jtem, std::move(ijtids))); // Add to suffix if frequent enough
                 }
             }
         }
@@ -86,17 +98,24 @@ void CloGenMiner::mine(const Itemset& prefix, const std::vector<MinerNode>& item
                 }
             }
         }
-        // if the size of the joins vector is greater than 1, sort the joins vector
+
+        // Sort joins for consistency if there are multiple items
         if (joins.size() > 1) {
             std::sort(joins.begin(), joins.end());
         }
-        // The closure of the current itemset is the join of the joins vector and the parentClosure
-        Itemset newClosure = join(joins, parentClosure); // newClosure is the closure of the current itemset
+
+        // Computing the Closure
+        // Compute the closure by combining joins (items always present) with the parent's closure
+        Itemset newClosure = join(joins, parentClosure);
+        // Form the closed itemset by combining the current itemset with its closure
         Itemset cset = join(iset, newClosure);
+
+        // Updating Minimal Generators
+        // Find all minimal generators that are subsets of the closed itemset with matching support
         std::list<GenMapEntry*> postMinGens = getMinGens(cset, node.fSupp, node.fHash);
         for (GenMapEntry* ge : postMinGens) {
-            if (ge != newset) {
-                Itemset add;
+            if (ge != newset) { // Skip the newly added generator to avoid self-update
+                Itemset add; // Items to add to the closure
                 std::set_difference(cset.begin(), cset.end(), ge->fItems.begin(), ge->fItems.end(), std::inserter(add, add.begin()));
                 if (add.size()) {
                     Itemset uni(ge->fClosure.size() + add.size());
@@ -106,12 +125,17 @@ void CloGenMiner::mine(const Itemset& prefix, const std::vector<MinerNode>& item
                 }
             }
         }
+
+        // Storing the New Generator
+        // If a new minimal generator was added, assign its closure and store it in the generator map
         if (newset) {
             newset->fClosure = newClosure;
             HashStorer<Itemset> h(&newset->fItems);
             fGenerators[h] = newset;
         }
-        // Sort suffix and recurse
+        
+        // Recursive Call
+        // If there are items in suffix, sort them and recurse to explore deeper itemsets
         if (suffix.size()) {
             sortNodes(suffix);
             mine(iset, suffix, newClosure);
@@ -120,6 +144,8 @@ void CloGenMiner::mine(const Itemset& prefix, const std::vector<MinerNode>& item
 }
 
 void CloGenMiner::gen_to_clo(){
+    // update the fClosures with the generators (fGenerators)
+
     for (auto it = fGenerators.begin(); it != fGenerators.end(); ++it ) {
         // get closure of the generator
         Itemset& closure = it->second->fClosure;
@@ -256,9 +282,14 @@ void CloGenMiner::sortNodes(std::vector<MinerNode>& nodes) const {
 }
 
 std::vector<MinerNode> CloGenMiner::getSingletons(int minsup) const {
-    // Build a list of (item, tidlist) pairs
-    std::unordered_map<int, int> nodeIndices;
+    // get the singletons in the database with support greater than or equal to minsup
+    // a singleton is a set of one item
+    // use this function to init the mine function
+    
+    std::unordered_map<int, int> nodeIndices; // Build a list of (item, tidlist) pairs
     std::vector<MinerNode> singletons;
+
+    // collect the singletons with enough support
     for (unsigned item = 1; item <= fDb.nrItems(); item++) {
         if (fDb.frequency(item) >= minsup) {
             singletons.push_back(MinerNode(item, fDb.frequency(item)));
@@ -266,6 +297,7 @@ std::vector<MinerNode> CloGenMiner::getSingletons(int minsup) const {
         }
     }
 
+    // for each row in the database, if the item in the row is in the nodeIndices, add the row to the tidlist of the item
     for (unsigned row = 0; row < fDb.size(); row++) {
         for (int item : fDb.getRow(row)) {
             if (contains(nodeIndices, item)) {
@@ -274,11 +306,14 @@ std::vector<MinerNode> CloGenMiner::getSingletons(int minsup) const {
         }
     }
     
+    // calculate the Hash Tid of each singleton
     for (MinerNode& node : singletons) {
         node.hashTids();
     }
     
+    // sort the singletons by increasing support
     sortNodes(singletons);
+
     return singletons;
 }
 
@@ -300,6 +335,8 @@ GenMapEntry* CloGenMiner::addMinGen(const GenMapEntry& newset) {
 }
 
 std::list<GenMapEntry*> CloGenMiner::getMinGens(const Itemset& items, int supp, int hash) {
+    // find the generators in the generator map with the same support and a subset of the items
+
     std::list<GenMapEntry*> minGens;
     if (fGenMap.find(hash) != fGenMap.end()) {
         for (GenMapEntry& g : fGenMap.at(hash)) {
