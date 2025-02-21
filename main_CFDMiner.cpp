@@ -16,18 +16,22 @@ int main(int argc, char *argv[])
         float supp = std::stof(argv[2]);
         int size = atoi(argv[3]);
 
-        std::ifstream ifile(csv_file_path);
         std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+        std::ifstream ifile(csv_file_path);
         std::cout << "Reading the database from " << csv_file_path << std::endl;
         Database db = TabularDatabase::fromFile(ifile, ',');
+
         int db_supp = std::max(int(db.size() * supp), 2);
         std::cout << "Run CloGenMiner on the database " << csv_file_path << std::endl;
         std::cout << "Minimal Support: " << db_supp << std::endl;
         CloGenMiner full_m(db, db_supp, size);
         full_m.run();
+
         CloGenMerger full_merger(full_m);
         std::cout << "CCFD Mining..." << std::endl;
         full_merger.print_ccfd("CFDMiner_ccfd.txt", db_supp);
+        
         std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
         std::cout << "Runtime = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
     }
