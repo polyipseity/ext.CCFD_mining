@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 4) {
         std::cout << "Usage: ./CFDMiner csv_file_path minsupp maxsize" << std::endl;
-		std::cout << "\t where csv_files_folder is the folder containing csv files, minsupp a positive float number specifying the minimum support of the discovered rules (range from 0 to 1), and maxsize a positive integer specifying the maximum size of the rules, i.e., the maximum number of attributes occurring in the rule" << std::endl;
+		std::cout << "\t where csv_file_path is the path to the csv file, minsupp a positive float number specifying the minimum support of the discovered rules (range from 0 to 1), and maxsize a positive integer specifying the maximum size of the rules, i.e., the maximum number of attributes occurring in the rule" << std::endl;
     }
     else{
         std::string csv_file_path = argv[1];

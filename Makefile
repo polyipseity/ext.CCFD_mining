@@ -130,6 +130,19 @@ CFDMiner/fast:
 .PHONY : CFDMiner/fast
 
 #=============================================================================
+# Target rules for targets named CFDMiner_Graph
+
+# Build rule for target.
+CFDMiner_Graph: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CFDMiner_Graph
+.PHONY : CFDMiner_Graph
+
+# fast build rule for target.
+CFDMiner_Graph/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/build
+.PHONY : CFDMiner_Graph/fast
+
+#=============================================================================
 # Target rules for targets named FGC_Stream_CFDMiner
 
 # Build rule for target.
@@ -196,6 +209,7 @@ algorithms/clogenmerger.o: algorithms/clogenmerger.cpp.o
 # target to build an object file
 algorithms/clogenmerger.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/clogenmerger.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/clogenmerger.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/clogenmerger.cpp.o
 .PHONY : algorithms/clogenmerger.cpp.o
 
@@ -205,6 +219,7 @@ algorithms/clogenmerger.i: algorithms/clogenmerger.cpp.i
 # target to preprocess a source file
 algorithms/clogenmerger.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/clogenmerger.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/clogenmerger.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/clogenmerger.cpp.i
 .PHONY : algorithms/clogenmerger.cpp.i
 
@@ -214,6 +229,7 @@ algorithms/clogenmerger.s: algorithms/clogenmerger.cpp.s
 # target to generate assembly for a file
 algorithms/clogenmerger.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/clogenmerger.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/clogenmerger.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/clogenmerger.cpp.s
 .PHONY : algorithms/clogenmerger.cpp.s
 
@@ -223,6 +239,7 @@ algorithms/clogenminer.o: algorithms/clogenminer.cpp.o
 # target to build an object file
 algorithms/clogenminer.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/clogenminer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/clogenminer.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/clogenminer.cpp.o
 .PHONY : algorithms/clogenminer.cpp.o
 
@@ -232,6 +249,7 @@ algorithms/clogenminer.i: algorithms/clogenminer.cpp.i
 # target to preprocess a source file
 algorithms/clogenminer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/clogenminer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/clogenminer.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/clogenminer.cpp.i
 .PHONY : algorithms/clogenminer.cpp.i
 
@@ -241,6 +259,7 @@ algorithms/clogenminer.s: algorithms/clogenminer.cpp.s
 # target to generate assembly for a file
 algorithms/clogenminer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/clogenminer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/clogenminer.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/clogenminer.cpp.s
 .PHONY : algorithms/clogenminer.cpp.s
 
@@ -250,6 +269,7 @@ algorithms/minernode.o: algorithms/minernode.cpp.o
 # target to build an object file
 algorithms/minernode.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/minernode.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/minernode.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/minernode.cpp.o
 .PHONY : algorithms/minernode.cpp.o
 
@@ -259,6 +279,7 @@ algorithms/minernode.i: algorithms/minernode.cpp.i
 # target to preprocess a source file
 algorithms/minernode.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/minernode.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/minernode.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/minernode.cpp.i
 .PHONY : algorithms/minernode.cpp.i
 
@@ -268,6 +289,7 @@ algorithms/minernode.s: algorithms/minernode.cpp.s
 # target to generate assembly for a file
 algorithms/minernode.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/algorithms/minernode.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/algorithms/minernode.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/algorithms/minernode.cpp.s
 .PHONY : algorithms/minernode.cpp.s
 
@@ -277,6 +299,7 @@ data/database.o: data/database.cpp.o
 # target to build an object file
 data/database.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/database.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/database.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/database.cpp.o
 .PHONY : data/database.cpp.o
 
@@ -286,6 +309,7 @@ data/database.i: data/database.cpp.i
 # target to preprocess a source file
 data/database.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/database.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/database.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/database.cpp.i
 .PHONY : data/database.cpp.i
 
@@ -295,6 +319,7 @@ data/database.s: data/database.cpp.s
 # target to generate assembly for a file
 data/database.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/database.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/database.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/database.cpp.s
 .PHONY : data/database.cpp.s
 
@@ -304,6 +329,7 @@ data/dbtoken.o: data/dbtoken.cpp.o
 # target to build an object file
 data/dbtoken.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/dbtoken.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/dbtoken.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/dbtoken.cpp.o
 .PHONY : data/dbtoken.cpp.o
 
@@ -313,6 +339,7 @@ data/dbtoken.i: data/dbtoken.cpp.i
 # target to preprocess a source file
 data/dbtoken.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/dbtoken.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/dbtoken.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/dbtoken.cpp.i
 .PHONY : data/dbtoken.cpp.i
 
@@ -322,6 +349,7 @@ data/dbtoken.s: data/dbtoken.cpp.s
 # target to generate assembly for a file
 data/dbtoken.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/dbtoken.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/dbtoken.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/dbtoken.cpp.s
 .PHONY : data/dbtoken.cpp.s
 
@@ -331,6 +359,7 @@ data/itemsetdatabase.o: data/itemsetdatabase.cpp.o
 # target to build an object file
 data/itemsetdatabase.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/itemsetdatabase.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/itemsetdatabase.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/itemsetdatabase.cpp.o
 .PHONY : data/itemsetdatabase.cpp.o
 
@@ -340,6 +369,7 @@ data/itemsetdatabase.i: data/itemsetdatabase.cpp.i
 # target to preprocess a source file
 data/itemsetdatabase.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/itemsetdatabase.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/itemsetdatabase.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/itemsetdatabase.cpp.i
 .PHONY : data/itemsetdatabase.cpp.i
 
@@ -349,6 +379,7 @@ data/itemsetdatabase.s: data/itemsetdatabase.cpp.s
 # target to generate assembly for a file
 data/itemsetdatabase.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/itemsetdatabase.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/itemsetdatabase.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/itemsetdatabase.cpp.s
 .PHONY : data/itemsetdatabase.cpp.s
 
@@ -358,6 +389,7 @@ data/tabulardatabase.o: data/tabulardatabase.cpp.o
 # target to build an object file
 data/tabulardatabase.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/tabulardatabase.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/tabulardatabase.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/tabulardatabase.cpp.o
 .PHONY : data/tabulardatabase.cpp.o
 
@@ -367,6 +399,7 @@ data/tabulardatabase.i: data/tabulardatabase.cpp.i
 # target to preprocess a source file
 data/tabulardatabase.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/tabulardatabase.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/tabulardatabase.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/tabulardatabase.cpp.i
 .PHONY : data/tabulardatabase.cpp.i
 
@@ -376,6 +409,7 @@ data/tabulardatabase.s: data/tabulardatabase.cpp.s
 # target to generate assembly for a file
 data/tabulardatabase.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/data/tabulardatabase.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/data/tabulardatabase.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/data/tabulardatabase.cpp.s
 .PHONY : data/tabulardatabase.cpp.s
 
@@ -403,12 +437,37 @@ main_CFDMiner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/main_CFDMiner.cpp.s
 .PHONY : main_CFDMiner.cpp.s
 
+main_graph.o: main_graph.cpp.o
+.PHONY : main_graph.o
+
+# target to build an object file
+main_graph.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/main_graph.cpp.o
+.PHONY : main_graph.cpp.o
+
+main_graph.i: main_graph.cpp.i
+.PHONY : main_graph.i
+
+# target to preprocess a source file
+main_graph.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/main_graph.cpp.i
+.PHONY : main_graph.cpp.i
+
+main_graph.s: main_graph.cpp.s
+.PHONY : main_graph.s
+
+# target to generate assembly for a file
+main_graph.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/main_graph.cpp.s
+.PHONY : main_graph.cpp.s
+
 util/setutil.o: util/setutil.cpp.o
 .PHONY : util/setutil.o
 
 # target to build an object file
 util/setutil.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/util/setutil.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/util/setutil.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/util/setutil.cpp.o
 .PHONY : util/setutil.cpp.o
 
@@ -418,6 +477,7 @@ util/setutil.i: util/setutil.cpp.i
 # target to preprocess a source file
 util/setutil.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/util/setutil.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/util/setutil.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/util/setutil.cpp.i
 .PHONY : util/setutil.cpp.i
 
@@ -427,6 +487,7 @@ util/setutil.s: util/setutil.cpp.s
 # target to generate assembly for a file
 util/setutil.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner.dir/build.make CMakeFiles/CFDMiner.dir/util/setutil.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CFDMiner_Graph.dir/build.make CMakeFiles/CFDMiner_Graph.dir/util/setutil.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FGC_Stream_CFDMiner.dir/build.make CMakeFiles/FGC_Stream_CFDMiner.dir/util/setutil.cpp.s
 .PHONY : util/setutil.cpp.s
 
@@ -439,6 +500,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CFDMiner"
+	@echo "... CFDMiner_Graph"
 	@echo "... FGC_Stream_CFDMiner"
 	@echo "... FGC-Stream/FGC-Stream.o"
 	@echo "... FGC-Stream/FGC-Stream.i"
@@ -470,6 +532,9 @@ help:
 	@echo "... main_CFDMiner.o"
 	@echo "... main_CFDMiner.i"
 	@echo "... main_CFDMiner.s"
+	@echo "... main_graph.o"
+	@echo "... main_graph.i"
+	@echo "... main_graph.s"
 	@echo "... util/setutil.o"
 	@echo "... util/setutil.i"
 	@echo "... util/setutil.s"
