@@ -1,4 +1,6 @@
+# custom {
 .vscode
+/build/
 /datasets
 /CMakeFiles
 CMakeCache.txt
@@ -12,3 +14,7 @@ compare_ccfd.ipynb
 run.sh
 xlsx2csv.py
 get-pip.py
+*.vcxproj
+*.vcxproj.filters
+*.sln
+# }
