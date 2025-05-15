@@ -72,7 +72,7 @@ void CloGenMiner::mine(const Itemset& prefix, const std::vector<MinerNode>& item
             // Use bucketing for efficiency when many items remain; precompute TID lists for each item
             std::unordered_map<int,TidList> ijtidMap = bucketTids(items, ix+1, node.fTids);
             // for each item in the items vector, if the item always appears in the same transaction as the current item, add the item to the joins vector
-            for (uint jx = ix + 1; jx < items.size(); jx++) {
+            for (unsigned int jx = ix + 1; jx < items.size(); jx++) {
                 int jtem = items[jx].fItem;
                 TidList& ijtids = ijtidMap[jtem];
                 int ijsupp = ijtids.size();
@@ -86,7 +86,7 @@ void CloGenMiner::mine(const Itemset& prefix, const std::vector<MinerNode>& item
         }
         else {
             // for each item in the items vector, if the item always appears in the same transaction as the current item, add the item to the joins vector
-            for (uint jx = ix + 1; jx < items.size(); jx++) {
+            for (unsigned int jx = ix + 1; jx < items.size(); jx++) {
                 const MinerNode& j = items[jx];
                 TidList ijtids = intersection(node.fTids, j.fTids);
                 int ijsupp = ijtids.size();
@@ -349,7 +349,7 @@ std::list<GenMapEntry*> CloGenMiner::getMinGens(const Itemset& items, int supp, 
 }
 
 std::unordered_map<int,TidList> CloGenMiner::bucketTids(const std::vector<MinerNode>& items,
-                                                      uint jx, const TidList& nodeTids) const {
+                                                      unsigned int jx, const TidList& nodeTids) const {
     // bucket the tids of the items in the items vector into the ijtidMap
     // ijtidMap is a map of item to its tids
     std::unordered_map<int,TidList> ijtidMap;
@@ -358,7 +358,7 @@ std::unordered_map<int,TidList> CloGenMiner::bucketTids(const std::vector<MinerN
     }
     for (int t : nodeTids) {
         const Transaction& tup = fDb.getRow(t);
-        for (uint vi = 0; vi < tup.size(); vi++) {
+        for (unsigned int vi = 0; vi < tup.size(); vi++) {
             if (ijtidMap.find(tup[vi]) != ijtidMap.end()) {
                 ijtidMap.at(tup[vi]).push_back(t); 
             }

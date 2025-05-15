@@ -46,7 +46,7 @@ public:
 	}
 
 	const T* fData;
-    const T fDataCop;
+  T fDataCop;
 	size_t fHash;
 };
 

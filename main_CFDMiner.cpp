@@ -3,7 +3,7 @@
 #include "data/tabulardatabase.h"
 #include "algorithms/clogenminer.h"
 #include "algorithms/clogenmerger.h"
-#include <dirent.h>
+// #include <dirent.h>
 #include <chrono>
 int main(int argc, char *argv[])
 {

@@ -515,9 +515,9 @@ std::set<std::set<uint32_t>*> compute_preds_exp(ClosedIS* clos) {
 			const uint32_t item = item_candidates.at(j - 1);
 			vector<uint32_t>* ref = &(reversed_gens->at(item));
 #ifdef USE_INT_BITSETS
-			uint64_t fidset = 0;
+			unsigned int64_t fidset = 0;
 			for (vector<uint32_t>::iterator it = ref->begin(); it != ref->end(); ++it) {
-				const uint64_t tmp = (1 << *it);
+				const unsigned int64_t tmp = (1 << *it);
 				fidset |= tmp;
 			}
 #else
@@ -654,7 +654,7 @@ void grow_generator(uint32_t _depth, vector<MinNode*>* _generators,
 	std::map<uint32_t, MinNode*>::reverse_iterator it_par_sib = _parent_siblings->rbegin();
 
 #ifdef USE_INT_BITSETS
-	uint64_t max_fidset = ~0;
+	unsigned int64_t max_fidset = ~0;
 	max_fidset = max_fidset >> (64 - _nbr_faces);
 #endif
 
@@ -674,9 +674,9 @@ void grow_generator(uint32_t _depth, vector<MinNode*>* _generators,
 		//std::cout << std::endl;
 
 #ifdef USE_INT_BITSETS
-		const uint64_t fid_in = _parent_node->fidset;
-		const uint64_t fid_right = ref_sib->fidset;
-		const uint64_t fid_out = fid_in | fid_right;
+		const unsigned int64_t fid_in = _parent_node->fidset;
+		const unsigned int64_t fid_right = ref_sib->fidset;
+		const unsigned int64_t fid_out = fid_in | fid_right;
 		if (fid_out != fid_in && fid_out != fid_right && fid_out == max_fidset) {
 #else
 		vector<uint32_t>* const fid_in = _parent_node->fidset;
@@ -763,7 +763,7 @@ void grow_generator(uint32_t _depth, vector<MinNode*>* _generators,
 }
 
 #ifdef USE_INT_BITSETS
-bool is_valid_candidate(MinNode* const _parent_node, const uint32_t _item, const uint64_t _fid_out, MinNode* const _root) {
+bool is_valid_candidate(MinNode* const _parent_node, const uint32_t _item, const unsigned int64_t _fid_out, MinNode* const _root) {
 #else
 bool is_valid_candidate(MinNode* const _parent_node, const uint32_t _item, vector<uint32_t>* const _fid_out, MinNode* const _root) {
 #endif

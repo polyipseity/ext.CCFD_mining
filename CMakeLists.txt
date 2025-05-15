@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 PROJECT(CFDMiner CXX)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -Wall -Wextra")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -O2 -Wall")
 FILE(GLOB_RECURSE DataSrcs data/*.cpp)
 FILE(GLOB_RECURSE AlgSrcs algorithms/*.cpp)
 FILE(GLOB_RECURSE UtilSrcs util/*.cpp)

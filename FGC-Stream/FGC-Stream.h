@@ -40,7 +40,7 @@ void grow_generator(uint32_t depth, vector<MinNode*>* _generators,
 	const uint32_t _nbr_faces, MinNode* const _parent_node, MinNode* const _root, vector<MinNode*>* const _nodes);
 //bool is_valid_candidate(MinNode* const _parent_node, const uint32_t _item, vector<uint32_t>* const _fid_out, MinNode* const _root);
 #ifdef USE_INT_BITSETS
-bool is_valid_candidate(MinNode* const _parent_node, const uint32_t _item, const uint64_t _fid_out, MinNode* const _root);
+bool is_valid_candidate(MinNode* const _parent_node, const uint32_t _item, const unsigned int64_t _fid_out, MinNode* const _root);
 #else
 bool is_valid_candidate(MinNode* const _parent_node, const uint32_t _item, vector<uint32_t>* const _fid_out, MinNode* const _root);
 #endif
@@ -121,7 +121,7 @@ struct MinNode {
 	uint16_t size;
 	uint32_t item;
 #ifdef USE_INT_BITSETS
-	uint64_t fidset;
+	unsigned int64_t fidset;
 #else
 	vector<uint32_t>* fidset = 0;
 #endif

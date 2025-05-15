@@ -25,7 +25,7 @@ protected:
 
     std::vector<MinerNode> getSingletons(int) const;
     void sortNodes(std::vector<MinerNode>&) const;
-    std::unordered_map<int,TidList> bucketTids(const std::vector<MinerNode>&, uint, const TidList&) const;
+    std::unordered_map<int,TidList> bucketTids(const std::vector<MinerNode>&, unsigned int, const TidList&) const;
 
     GenMapEntry* addMinGen(const GenMapEntry&);
     std::list<GenMapEntry*> getMinGens(const Itemset&, int, int);
