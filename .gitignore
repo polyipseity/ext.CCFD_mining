@@ -11,3 +11,4 @@ main_test.cpp
 compare_ccfd.ipynb
 run.sh
 xlsx2csv.py
+get-pip.py
