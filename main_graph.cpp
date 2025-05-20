@@ -45,8 +45,11 @@ int main(int argc, char *argv[])
         }
         std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-        // create a ccfd list to store all the CCFDs with their corresponding Database
-        std::vector<std::pair<ccfd, Database*>> ccfd_with_db_list;
+        // Create a unified token mapping for all tokens
+        std::set<std::pair<std::string, std::string>> all_tokens;
+        std::map<std::pair<std::string, std::string>, int> unified_token_to_int_map;
+        std::map<int, std::pair<std::string, std::string>> unified_int_to_token_map;
+        std::vector<ccfd> unified_ccfd_list;
         int total_transactions = 0;
 
         // for each partition, read the csv file and mine the CCFDs
@@ -73,78 +76,50 @@ int main(int argc, char *argv[])
             std::cout << "CCFD Mining..." << std::endl;
             std::vector<ccfd> new_ccfd_list = merger.ccfd_mine(db_supp, 0);
             
-            // add all the new ccfds to the ccfd list with their database
+            // Process CCFDs from this partition: collect tokens and remap immediately
             for (const ccfd& rule : new_ccfd_list) {
-                ccfd_with_db_list.push_back(std::make_pair(rule, db));
+                // Collect tokens from the rule
+                for (int item : rule.lhs) {
+                    all_tokens.insert(db->getToken(item));
+                }
+                for (int item : rule.rhs) {
+                    all_tokens.insert(db->getToken(item));
+                }
             }
+            
+            // Update the unified token mapping
+            int next_id = unified_token_to_int_map.size() + 1;
+            for (const auto& token : all_tokens) {
+                if (unified_token_to_int_map.find(token) == unified_token_to_int_map.end()) {
+                    // if the token is not in the map, add it to the map
+                    unified_token_to_int_map[token] = next_id;
+                    unified_int_to_token_map[next_id] = token;
+                    next_id++;
+                }
+            }
+            
+            // Remap and add the CCFDs from this partition
+            for (const ccfd& rule : new_ccfd_list) {
+                std::set<int> new_lhs;
+                for (int item : rule.lhs) {
+                    new_lhs.insert(unified_token_to_int_map[db->getToken(item)]);
+                }
+                
+                std::set<int> new_rhs;
+                for (int item : rule.rhs) {
+                    new_rhs.insert(unified_token_to_int_map[db->getToken(item)]);
+                }
+                
+                unified_ccfd_list.push_back(ccfd(new_lhs, new_rhs, rule.supp, 0));
+            }
+            
+            // Free memory by deleting the database
+            delete db;
         }
-        std::cout << "Total number of CCFDs: " << ccfd_with_db_list.size() << std::endl;
+        
+        std::cout << "Total number of CCFDs: " << unified_ccfd_list.size() << std::endl;
         std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
         std::cout << "Time taken to mine CCFDs: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
-
-
-        // Now, create a unified token mapping for all tokens used in CCFDs
-        // std::cout << "Creating a unified token mapping for CCFDs..." << std::endl;
-        std::chrono::steady_clock::time_point begin_unify = std::chrono::steady_clock::now();
-        
-        // 1. Collect all tokens from all CCFDs
-        std::set<std::pair<std::string, std::string>> all_tokens;
-        for (const auto& pair : ccfd_with_db_list) {
-            const ccfd& rule = pair.first;
-            Database* db = pair.second;
-            
-            // Collect tokens from the left-hand side (LHS)
-            for (int item : rule.lhs) {
-                std::pair<std::string, std::string> token = db->getToken(item);
-                all_tokens.insert(token);
-            }
-            
-            // Collect token from the right-hand side (RHS)
-            for (int item : rule.rhs) {
-                std::pair<std::string, std::string> token = db->getToken(item);
-                all_tokens.insert(token);
-            }
-        }
-        
-        // 2. Create a new unified token map
-        std::map<std::pair<std::string, std::string>, int> unified_token_to_int_map;
-        std::map<int, std::pair<std::string, std::string>> unified_int_to_token_map;
-        int next_id = 1;
-        for (const auto& token : all_tokens) {
-            unified_token_to_int_map[token] = next_id;
-            unified_int_to_token_map[next_id] = token;
-            next_id++;
-        }
-        
-        // 3. Update the item IDs in all CCFDs
-        std::vector<ccfd> unified_ccfd_list;
-        for (const auto& pair : ccfd_with_db_list) {
-            ccfd rule = pair.first;  // Make a copy
-            Database* db = pair.second;
-            
-            // Remap the LHS items
-            std::set<int> new_lhs;
-            for (int item : rule.lhs) {
-                std::pair<std::string, std::string> token = db->getToken(item);
-                int new_id = unified_token_to_int_map[token];
-                new_lhs.insert(new_id);
-            }
-            
-            // Remap the RHS item
-            std::set<int> new_rhs;
-            for (int item : rule.rhs) {
-                std::pair<std::string, std::string> token = db->getToken(item);
-                int new_id = unified_token_to_int_map[token];
-                new_rhs.insert(new_id);
-            }
-            
-            // Create a new CCFD with remapped IDs
-            ccfd unified_rule(new_lhs, new_rhs, rule.supp, 0);
-            unified_ccfd_list.push_back(unified_rule);
-        }
-
-        std::chrono::steady_clock::time_point end_unify = std::chrono::steady_clock::now();
-        std::cout << "Time taken to unify CCFDs: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_unify - begin_unify).count() << "[ms]" << std::endl;
 
         std::chrono::steady_clock::time_point begin_graph = std::chrono::steady_clock::now();
         // use the graph-based method to resolve conflicts
@@ -167,14 +142,5 @@ int main(int argc, char *argv[])
             node->print_ccfd(unified_int_to_token_map, output_file);
         }
         output_file.close();
-        
-        // Clean up allocated Database objects
-        std::set<Database*> db_set;
-        for (const auto& pair : ccfd_with_db_list) {
-            db_set.insert(pair.second);
-        }
-        for (Database* db : db_set) {
-            delete db;
-        }
     }
 }
