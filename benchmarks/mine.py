@@ -1,5 +1,12 @@
+from glob import iglob
+from itertools import product
 from os import name
 from pathlib import Path
+from re import A
+from shutil import move
+from subprocess import check_call
+from sys import stderr, stdout
+from time import monotonic_ns
 from types import MappingProxyType
 
 """
@@ -13,22 +20,74 @@ where
 """
 
 EXECUTABLE_FOLDER_PATH = Path("../build/Debug/")
-CFD_MINER = f"CFDMiner{'.exe' if name == 'nt' else ''}"  # CFDMiner [csv_file_path] [minsupp] [maxsize]
-STREAM_MINER = f"FGC_Stream_CFDMiner{'.exe' if name == 'nt' else ''}"  # FGC_Stream_CFDMiner [csv_file_path] [minsupp] [window_size] [exit_at]
-STREAM_MINER_GRAPH = f"CFDMiner_Graph{'.exe' if name == 'nt' else ''}"  # CFDMiner_Graph [csv_files_folder] [minsupp] [maxsize]
+CFD_MINER = (
+    EXECUTABLE_FOLDER_PATH / f"CFDMiner{'.exe' if name == 'nt' else ''}"
+)  # CFDMiner [csv_file_path] [minsupp] [maxsize]
+STREAM_MINER = (
+    EXECUTABLE_FOLDER_PATH / f"FGC_Stream_CFDMiner{'.exe' if name == 'nt' else ''}"
+)  # FGC_Stream_CFDMiner [csv_file_path] [minsupp] [window_size] [exit_at]
+STREAM_MINER_GRAPH = (
+    EXECUTABLE_FOLDER_PATH / f"CFDMiner_Graph{'.exe' if name == 'nt' else ''}"
+)  # CFDMiner_Graph [csv_files_folder] [minsupp] [maxsize]
 
 INPUT_PATH_PLACEHOLDER = object()
 BENCHMARKS = MappingProxyType(
     {
-        "support=0.005": (CFD_MINER, INPUT_PATH_PLACEHOLDER, str(0.005)),
-        "support=0.01": (CFD_MINER, INPUT_PATH_PLACEHOLDER, str(0.01)),
-        "support=0.05": (CFD_MINER, INPUT_PATH_PLACEHOLDER, str(0.05)),
-        "support=0.1": (CFD_MINER, INPUT_PATH_PLACEHOLDER, str(0.1)),
+        **{
+            f"support={sup}": (
+                CFD_MINER,
+                INPUT_PATH_PLACEHOLDER,
+                str(sup),
+                str(255),
+            )
+            for sup in (0.005, 0.01, 0.05, 0.1)
+        },
+        **{
+            f"stream, support={sup}, window={win}": (
+                STREAM_MINER,
+                INPUT_PATH_PLACEHOLDER,
+                str(sup),
+                str(win),
+            )
+            for sup in (0.005, 0.01, 0.05, 0.1)
+            for win in (1000, 2000, 5000, 10000)
+        },
     }
 )
 
 
-def main() -> None: ...
+def main() -> None:
+    for data_csv_filepath in iglob("*/*.csv"):
+        data_csv_filepath = Path(data_csv_filepath).resolve(strict=True)
+        cwd = data_csv_filepath.parent
+
+        for name, benchmark in BENCHMARKS.items():
+            result_folder_path = cwd / f"ret; {name}"
+            result_folder_path.mkdir(exist_ok=True)
+
+            def args0(args=benchmark):
+                for arg in args:
+                    if arg is INPUT_PATH_PLACEHOLDER:
+                        yield data_csv_filepath
+                        continue
+                    if isinstance(arg, (Path, str)):
+                        yield arg
+                        continue
+                    raise ValueError(arg)
+
+            args = tuple(args0())
+            start_time_ns = monotonic_ns()
+            print(f"start: {args}")
+            check_call(args, cwd=cwd, stdin=None, stdout=stdout, stderr=stderr)
+            end_time_ns = monotonic_ns()
+            elapsed_ns = end_time_ns - start_time_ns
+            print(f"end: used {elapsed_ns} ns")
+
+            (result_folder_path / "performance.txt").write_text(
+                f"elapsed: {elapsed_ns} ns\n"
+            )
+            for result_filename in iglob("*.txt", root_dir=cwd):
+                move(cwd / result_filename, result_folder_path / result_filename)
 
 
 if __name__ == "__main__":
