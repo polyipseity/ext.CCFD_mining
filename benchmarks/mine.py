@@ -63,6 +63,8 @@ def main() -> None:
 
         for name, benchmark in BENCHMARKS.items():
             result_folder_path = cwd / f"ret; {name}"
+            if (result_folder_path / ".ignore").exists():
+                continue
             result_folder_path.mkdir(exist_ok=True)
 
             def args0(args=benchmark):

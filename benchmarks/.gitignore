@@ -205,5 +205,7 @@ __marimo__/
 # }
 
 # custom {
+!CFDMiner_ccfd.txt
+.ignore
 data.csv
 # }
