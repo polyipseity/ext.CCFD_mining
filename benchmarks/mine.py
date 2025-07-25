@@ -26,7 +26,7 @@ CFD_MINER = (
 STREAM_MINER = (
     EXECUTABLE_FOLDER_PATH / f"FGC_Stream_CFDMiner{'.exe' if name == 'nt' else ''}"
 )  # FGC_Stream_CFDMiner [csv_file_path] [minsupp] [window_size] [exit_at]
-STREAM_MINER_GRAPH = (
+CFD_MINER_GRAPH = (
     EXECUTABLE_FOLDER_PATH / f"CFDMiner_Graph{'.exe' if name == 'nt' else ''}"
 )  # CFDMiner_Graph [csv_files_folder] [minsupp] [maxsize]
 
@@ -40,7 +40,7 @@ BENCHMARKS = MappingProxyType(
                 str(sup),
                 str(255),
             )
-            for sup in (0.005, 0.01, 0.05, 0.1)
+            for sup in (0.1, 0.05, 0.01, 0.005)
         },
         **{
             f"stream, support={sup}, window={win}": (
@@ -49,8 +49,26 @@ BENCHMARKS = MappingProxyType(
                 str(sup),
                 str(win),
             )
-            for sup in (0.005, 0.01, 0.05, 0.1)
+            for sup in (0.1, 0.05, 0.01, 0.005)
             for win in (1000, 2000, 5000, 10000)
+        },
+        **{
+            f"graph, support={sup}, window={win}": (
+                STREAM_MINER,
+                INPUT_PATH_PLACEHOLDER,
+                str(sup),
+                str(win),
+            )
+            for sup in (0.1, 0.05, 0.01, 0.005)
+            for win in (1000, 2000, 5000, 10000)
+        },
+        **{
+            f"stream, support={sup}": (
+                CFD_MINER_GRAPH,
+                INPUT_PATH_PLACEHOLDER,
+                str(sup),
+            )
+            for sup in (0.1, 0.05, 0.01, 0.005)
         },
     }
 )
