@@ -12,7 +12,6 @@
 
 int main(int argc, char *argv[])
 {
-    /*
     if (argc != 4) {
         std::cout << "Usage: ./CFDMiner_Graph csv_files_folder minsupp maxsize" << std::endl;
 		std::cout << "\t where csv_files_folder is the folder containing csv files, minsupp a positive float number specifying the minimum support of the discovered rules (range from 0 to 1), and maxsize a positive integer specifying the maximum size of the rules, i.e., the maximum number of attributes occurring in the rule" << std::endl;
@@ -24,6 +23,7 @@ int main(int argc, char *argv[])
 
         // read all filenames in the folder
         std::vector<std::string> partition_filenames;
+        /*
         DIR *dir;
         struct dirent *ent;
         if ((dir = opendir (csv_files_folder.c_str())) != NULL) {
@@ -39,6 +39,8 @@ int main(int argc, char *argv[])
             std::cerr << "Error opening directory: " << csv_files_folder << std::endl;
             return 1;
         }
+        */
+        partition_filenames.emplace_back(csv_files_folder);
 
         if (partition_filenames.empty()) {
             std::cerr << "No CSV files found in directory: " << csv_files_folder << std::endl;
@@ -144,5 +146,4 @@ int main(int argc, char *argv[])
         }
         output_file.close();
     }
-    */
 }
