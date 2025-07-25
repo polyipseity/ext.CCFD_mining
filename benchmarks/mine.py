@@ -102,6 +102,8 @@ def main() -> None:
                     continue
                 move(cwd / result_filename, result_folder_path / result_filename)
 
+            (result_folder_path / ".ignore").write_bytes(b"")
+
 
 if __name__ == "__main__":
     main()
