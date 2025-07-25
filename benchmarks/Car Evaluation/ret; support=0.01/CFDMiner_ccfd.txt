@@ -1,0 +1,15 @@
+[buying, class] => maint, (med, good || low), support: 23
+[lug_boot, safety, buying] => class, (small, med, high || unacc), support: 48
+[safety] => class, (low || unacc), support: 576
+[buying, lug_boot, safety] => class, (vhigh, small, med || unacc), support: 48
+[buying, maint] => class, (vhigh, high || unacc), support: 108
+[persons] => class, (2 || unacc), support: 576
+[lug_boot, class] => safety, (small, good || high), support: 21
+[maint, lug_boot, safety] => class, (vhigh, small, med || unacc), support: 48
+[class] => safety, (vgood || high), support: 65
+[lug_boot, class, buying] => safety, (small, acc, high || high), support: 21
+[maint, class] => buying, (med, good || low), support: 23
+[maint, buying] => class, (vhigh, high || unacc), support: 108
+[doors, lug_boot, persons] => class, (2, small, more || unacc), support: 48
+[buying, maint] => class, (vhigh, vhigh || unacc), support: 108
+[lug_boot, class] => safety, (big, good || med), support: 24
