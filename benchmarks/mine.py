@@ -53,20 +53,11 @@ BENCHMARKS = MappingProxyType(
             for win in (1000, 2000, 5000, 10000)
         },
         **{
-            f"graph, support={sup}, window={win}": (
-                STREAM_MINER,
-                INPUT_PATH_PLACEHOLDER,
-                str(sup),
-                str(win),
-            )
-            for sup in (0.1, 0.05, 0.01, 0.005)
-            for win in (1000, 2000, 5000, 10000)
-        },
-        **{
-            f"stream, support={sup}": (
+            f"graph, support={sup}": (
                 CFD_MINER_GRAPH,
                 INPUT_PATH_PLACEHOLDER,
                 str(sup),
+                str(255),
             )
             for sup in (0.1, 0.05, 0.01, 0.005)
         },
@@ -107,6 +98,8 @@ def main() -> None:
                 f"elapsed: {elapsed_ns} ns\n"
             )
             for result_filename in iglob("*.txt", root_dir=cwd):
+                if result_filename == "converted_dataset.txt":
+                    continue
                 move(cwd / result_filename, result_folder_path / result_filename)
 
 

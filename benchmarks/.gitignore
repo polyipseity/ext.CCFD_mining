@@ -206,6 +206,7 @@ __marimo__/
 
 # custom {
 !CFDMiner_ccfd.txt
+!FGC_Stream_CFDMiner_ccfd.txt
 .ignore
 data.csv
 # }
