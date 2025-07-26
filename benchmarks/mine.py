@@ -1,5 +1,5 @@
 from glob import iglob
-from json import JSONDecodeError, dump, load
+from json import dump, load
 from os import name
 from pathlib import Path
 from shutil import move
@@ -98,13 +98,11 @@ def main() -> None:
                     continue
                 move(cwd / result_filename, result_folder_path / result_filename)
 
-            with (result_folder_path / "performance.json").open(
-                "w+t", encoding="UTF-8"
-            ) as performance_file:
-                try:
-                    performance = load(performance_file)
-                except JSONDecodeError:
-                    performance = {}
+            performance_filepath = result_folder_path / "performance.json"
+            if not performance_filepath.exists():
+                performance_filepath.write_bytes(b"{}")
+            with performance_filepath.open("r+t", encoding="UTF-8") as performance_file:
+                performance = load(performance_file)
 
                 performance["elapsed"].append(elapsed_ns)
                 performance_file.seek(0)
