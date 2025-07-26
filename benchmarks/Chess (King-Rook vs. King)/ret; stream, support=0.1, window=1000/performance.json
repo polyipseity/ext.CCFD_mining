@@ -1,5 +1,7 @@
 {
     "elapsed": [
         1833016000000
-    ]
+    ],
+    "precision": 0.0,
+    "recall": -1
 }
