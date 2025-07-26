@@ -1,8 +1,7 @@
 from glob import iglob
-from itertools import product
+from json import JSONDecodeError, dump, load
 from os import name
 from pathlib import Path
-from re import A
 from shutil import move
 from subprocess import check_call
 from sys import stderr, stdout
@@ -94,13 +93,31 @@ def main() -> None:
             elapsed_ns = end_time_ns - start_time_ns
             print(f"end: used {elapsed_ns} ns")
 
-            (result_folder_path / "performance.txt").write_text(
-                f"elapsed: {elapsed_ns} ns\n"
-            )
             for result_filename in iglob("*.txt", root_dir=cwd):
                 if result_filename == "converted_dataset.txt":
                     continue
                 move(cwd / result_filename, result_folder_path / result_filename)
+
+            with (result_folder_path / "performance.json").open(
+                "w+t", encoding="UTF-8"
+            ) as performance_file:
+                try:
+                    performance = load(performance_file)
+                except JSONDecodeError:
+                    performance = {}
+
+                performance["elapsed"].append(elapsed_ns)
+                performance_file.seek(0)
+
+                dump(
+                    performance,
+                    performance_file,
+                    ensure_ascii=False,
+                    check_circular=False,
+                    indent=4,
+                    sort_keys=True,
+                )
+                performance_file.truncate()
 
             (result_folder_path / ".ignore").write_bytes(b"")
 
