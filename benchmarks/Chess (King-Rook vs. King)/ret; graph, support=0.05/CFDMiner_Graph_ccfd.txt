@@ -1,0 +1,2 @@
+[white-king-file] => white-king-rank, (a || 1), support : 1878
+[white-king-rank] => white-king-file, (4 || d), support : 1720
