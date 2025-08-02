@@ -12,14 +12,19 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc != 4) {
-        std::cout << "Usage: ./CFDMiner_Graph csv_files_folder minsupp maxsize" << std::endl;
+    // if (argc != 4) {
+    if (argc < 4) {
+        std::cout << "Usage: ./CFDMiner_Graph minsupp maxsize csv_files_folder..." << std::endl;
 		std::cout << "\t where csv_files_folder is the folder containing csv files, minsupp a positive float number specifying the minimum support of the discovered rules (range from 0 to 1), and maxsize a positive integer specifying the maximum size of the rules, i.e., the maximum number of attributes occurring in the rule" << std::endl;
     }
     else{
+        /*
         std::string csv_files_folder = argv[1];
         float supp = std::stof(argv[2]);
         int size = atoi(argv[3]);
+        */
+        float supp = std::stof(argv[1]);
+        int size = atoi(argv[2]);
 
         // read all filenames in the folder
         std::vector<std::string> partition_filenames;
@@ -40,10 +45,13 @@ int main(int argc, char *argv[])
             return 1;
         }
         */
-        partition_filenames.emplace_back(csv_files_folder);
+        for (int idx{3}; idx < argc; ++idx) {
+            partition_filenames.emplace_back(argv[idx]);
+        }
 
         if (partition_filenames.empty()) {
-            std::cerr << "No CSV files found in directory: " << csv_files_folder << std::endl;
+            // std::cerr << "No CSV files found in directory: " << csv_files_folder << std::endl;
+            std::cerr << "No CSV files found in directory" << std::endl;
             return 1;
         }
         std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
