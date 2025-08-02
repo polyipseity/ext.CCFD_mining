@@ -1,5 +1,0 @@
-[safety] => class, (low || unacc), support : 333
-[persons] => class, (2 || unacc), support : 333
-[2] => unacc, (2 || unacc), support : 242
-[low] => unacc, (low || unacc), support : 242
-[buying, maint] => class, (high, vhigh || unacc), support : 108

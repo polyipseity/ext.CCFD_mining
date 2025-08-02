@@ -1,1 +1,0 @@
-[thirteen] => d, (thirteen || d), support : 947

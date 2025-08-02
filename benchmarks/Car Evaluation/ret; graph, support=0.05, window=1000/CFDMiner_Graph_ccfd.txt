@@ -1,9 +1,0 @@
-[safety] => class, (low || unacc), support : 333
-[persons] => class, (2 || unacc), support : 333
-[low] => unacc, (low || unacc), support : 242
-[2] => unacc, (2 || unacc), support : 242
-[lug_boot, safety] => class, (small, med || unacc), support : 111
-[buying, maint] => class, (vhigh, high || unacc), support : 108
-[buying, maint] => class, (high, vhigh || unacc), support : 108
-[buying, maint] => class, (vhigh, vhigh || unacc), support : 108
-[high] => med, (vhigh || low), support : 108
