@@ -101,20 +101,22 @@ def main() -> None:
                             yield data_csv_filepath
                             continue
                         if isinstance(arg, PartitionedInputPathsPlaceholder):
-                            with data_csv_filepath.open(
-                                "rt", encoding="UTF-8"
-                            ) as data_csv_file:
+                            with data_csv_filepath.open("rb") as data_csv_file:
+                                try:
+                                    header = next(data_csv_file)
+                                except StopIteration:
+                                    continue
                                 for lines in zip_longest(
                                     *((data_csv_file,) * arg.window)
                                 ):
-                                    content = "\n".join(
+                                    content = b"".join(
                                         line for line in lines if line is not None
                                     )
                                     if content:
                                         temp_filepath = temp_dir_path / str(
                                             temp_file_idx
                                         )
-                                        temp_filepath.write_text(content)
+                                        temp_filepath.write_bytes(header + content)
                                         temp_file_idx += 1
                                         yield temp_filepath
                             continue
