@@ -1,0 +1,11 @@
+[white-king-rank] => white-king-file, (4 || d), support : 1665
+[white-king-file] => white-king-rank, (a || 1), support : 1332
+[white-depth-of-win] => white-king-file, (thirteen || d), support : 947
+[white-king-rank] => white-depth-of-win, (1 || fourteen), support : 3195
+[white-king-file, white-king-rank] => white-depth-of-win, (d, 3 || twelve), support : 712
+[white-king-file, white-depth-of-win] => white-king-rank, (d, fourteen || 1), support : 887
+[white-king-file] => white-depth-of-win, (c || fourteen), support : 1511
+[white-king-file, white-depth-of-win] => white-king-rank, (d, fifteen || 1), support : 344
+[white-depth-of-win, white-rook-rank] => white-king-rank, (fifteen, 1 || 1), support : 279
+[black-king-rank, white-depth-of-win] => white-king-file, (8, twelve || d), support : 269
+[white-king-file, white-rook-file] => white-depth-of-win, (d, h || fourteen), support : 217

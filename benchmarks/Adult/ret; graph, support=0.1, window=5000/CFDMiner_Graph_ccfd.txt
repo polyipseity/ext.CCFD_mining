@@ -1,0 +1,10 @@
+[education-num] => education, (10 || Some-college), support : 10878
+[education] => education-num, (Some-college || 10), support : 10878
+[education-num] => education, (13 || Bachelors), support : 8025
+[education] => education-num, (Bachelors || 13), support : 8025
+[education-num] => education, (9 || HS-grad), support : 15784
+[education] => education-num, (HS-grad || 9), support : 15784
+[relationship] => marital-status, (Husband || Married-civ-spouse), support : 6070
+[relationship, hours-per-week] => marital-status, (Husband, 40 || Married-civ-spouse), support : 3785
+[relationship, income] => marital-status, (Husband, >50K. || Married-civ-spouse), support : 1580
+[marital-status, sex, workclass, income] => relationship, (Married-civ-spouse, Male, Private, >50K. || Husband), support : 464
