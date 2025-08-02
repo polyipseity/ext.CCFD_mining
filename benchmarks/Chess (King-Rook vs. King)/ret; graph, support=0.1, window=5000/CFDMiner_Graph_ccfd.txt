@@ -1,0 +1,7 @@
+[d] => thirteen, (c || fourteen), support : 1511
+[d] => thirteen, (b || fourteen), support : 1326
+[3, c] => twelve, (3, d || twelve), support : 712
+[2, a] => thirteen, (1, a || fourteen), support : 680
+[3, c] => twelve, (1, c || thirteen), support : 546
+[d] => fourteen, (c || fifteen), support : 485
+[d, fourteen] => 1, (d, fifteen || 1), support : 344
