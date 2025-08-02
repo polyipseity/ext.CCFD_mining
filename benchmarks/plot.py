@@ -36,6 +36,7 @@ class Rule:
             vals[vals.index(" || ") + len(" || ") :],
         )
         support = int(stats[len("support :") :])
+        support = 0  # ignore support for equality checking
 
         return cls(inputs=frozenset(inputs.items()), output=output, support=support)
 

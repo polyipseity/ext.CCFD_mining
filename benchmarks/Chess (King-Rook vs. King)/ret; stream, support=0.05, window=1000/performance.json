@@ -2,6 +2,6 @@
     "elapsed": [
         7021484000000
     ],
-    "precision": 0.0,
-    "recall": 0.0
+    "precision": 0.005681818181818182,
+    "recall": 1.0
 }
