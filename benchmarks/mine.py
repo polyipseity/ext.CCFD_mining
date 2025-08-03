@@ -31,15 +31,15 @@ STREAM_MINER = (
 CFD_MINER_GRAPH = (
     EXECUTABLE_FOLDER_PATH / f"CFDMiner_Graph{'.exe' if name == 'nt' else ''}"
 )  # CFDMiner_Graph [minsupp] [maxsize] [csv_files_folder...]
-MAX_ITEM_SET_SIZE = 255
 
+
+MAX_ITEM_SET_SIZE = 255
 INPUT_PATH_PLACEHOLDER = object()
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
-class WindowRelativeSupportPlaceholder:
-    support: float
-    window: int
+class AbsoluteSupportPlaceholder:
+    support: int
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
@@ -50,34 +50,34 @@ class PartitionedInputPathsPlaceholder:
 BENCHMARKS = MappingProxyType(
     {
         **{
-            f"support={sup}": (
+            f"default; support={round(sup * win)}": (
                 CFD_MINER,
                 INPUT_PATH_PLACEHOLDER,
-                WindowRelativeSupportPlaceholder(support=sup, window=win),
+                AbsoluteSupportPlaceholder(support=round(sup * win)),
                 str(MAX_ITEM_SET_SIZE),
             )
             for sup in (0.1, 0.05, 0.01, 0.005)
-            for win in (1000, 2000, 5000, 10000)
+            for win in (10000, 5000, 2000, 1000)
         },
         **{
-            f"stream, support={sup}, window={win}": (
+            f"stream; support={sup}, window={win}": (
                 STREAM_MINER,
                 INPUT_PATH_PLACEHOLDER,
                 str(sup),
                 str(win),
             )
             for sup in (0.1, 0.05, 0.01, 0.005)
-            for win in (1000, 2000, 5000, 10000)
+            for win in (10000, 5000, 2000, 1000)
         },
         **{
-            f"graph, support={sup}, window={win}": (
+            f"graph; support={sup}, window={win}": (
                 CFD_MINER_GRAPH,
                 str(sup),
                 str(MAX_ITEM_SET_SIZE),
                 PartitionedInputPathsPlaceholder(window=win),
             )
             for sup in (0.1, 0.05, 0.01, 0.005)
-            for win in (1000, 2000, 5000, 10000)
+            for win in (10000, 5000, 2000, 1000)
         },
     }
 )
@@ -89,10 +89,10 @@ def main() -> None:
         cwd = data_csv_filepath.parent
 
         for name, benchmark in BENCHMARKS.items():
-            result_folder_path = cwd / f"ret; {name}"
+            result_folder_path = cwd / "results" / name
             if (result_folder_path / ".ignore").exists():
                 continue
-            result_folder_path.mkdir(exist_ok=True)
+            result_folder_path.mkdir(exist_ok=True, parents=True)
 
             with TemporaryDirectory() as temp_dir_path:
                 temp_dir_path = Path(temp_dir_path)
@@ -107,11 +107,10 @@ def main() -> None:
                         if arg is INPUT_PATH_PLACEHOLDER:
                             yield data_csv_filepath
                             continue
-                        if isinstance(arg, WindowRelativeSupportPlaceholder):
+                        if isinstance(arg, AbsoluteSupportPlaceholder):
                             with data_csv_filepath.open("rb") as data_csv_file:
                                 data_size = max(0, sum(1 for _ in data_csv_file) - 1)
-                            absolute_support = arg.window * arg.support
-                            yield str(absolute_support / data_size)
+                            yield str(arg.support / data_size)
                             continue
                         if isinstance(arg, PartitionedInputPathsPlaceholder):
                             with data_csv_filepath.open("rb") as data_csv_file:

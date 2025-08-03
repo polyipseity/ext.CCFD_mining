@@ -41,24 +41,32 @@ class Rule:
         return cls(inputs=frozenset(inputs.items()), output=output, support=support)
 
 
+def parse_folder_name(name: str) -> tuple[str, dict[str, float | int]]:
+    type, parts = name.split("; ", 1)
+    parameters = dict[str, float | int]()
+    for part in parts.split(", "):
+        if "=" not in part:
+            type = part
+            continue
+        key, val = part.split("=", 1)
+        try:
+            parameters[key] = int(val)
+        except ValueError:
+            parameters[key] = float(val)
+    return type, parameters
+
+
 def calculate_precision_and_recall() -> None:
     for ccfd_pathname in iglob("**/*ccfd.txt", recursive=True):
         ccfd_path = Path(ccfd_pathname)
         if ccfd_path.name == "CFDMiner_ccfd.txt":
             continue
 
-        control_ccfd_folder_name = ccfd_path.parts[-2]
-        control_ccfd_folder_name = control_ccfd_folder_name[
-            control_ccfd_folder_name.index("support=") :
-        ]
-        try:
-            control_ccfd_folder_name = control_ccfd_folder_name[
-                : control_ccfd_folder_name.index(",")
-            ]
-        except ValueError:
-            pass
+        _, parameters = parse_folder_name(ccfd_path.parts[-2])
         control_ccfd_path = (
-            ccfd_path.parent.with_name(f"ret; {control_ccfd_folder_name}")
+            ccfd_path.parent.with_name(
+                f"default; support={round(parameters['support'] * parameters['window'])}"
+            )
             / "CFDMiner_ccfd.txt"
         )
 
@@ -117,12 +125,14 @@ def main() -> None:
     for data_folder in scandir("./"):
         if not data_folder.is_dir():
             continue
-        data_folder = Path(data_folder)
+        results_folder = Path(data_folder) / "results"
+        if not results_folder.exists():
+            continue
 
         typed_results = defaultdict[str, list[Result]](list)
-        for result_folder_path in iglob("ret; *", root_dir=data_folder):
-            result_folder_path = data_folder / result_folder_path
-            result_folder_name = result_folder_path.name[len("ret; ") :]
+        for result_folder_path in iglob("*", root_dir=results_folder):
+            result_folder_path = results_folder / result_folder_path
+            result_folder_name = result_folder_path.name
 
             performance_filepath = result_folder_path / "performance.json"
             try:
@@ -131,18 +141,7 @@ def main() -> None:
             except FileNotFoundError:
                 continue
 
-            type = "default"
-            parameters = dict[str, float | int]()
-            for part in result_folder_name.split(", "):
-                if "=" not in part:
-                    type = part
-                    continue
-                key, val = part.split("=", 1)
-                try:
-                    parameters[key] = int(val)
-                except ValueError:
-                    parameters[key] = float(val)
-
+            type, parameters = parse_folder_name(result_folder_name)
             typed_results[type].append(
                 Result(type=type, parameters=parameters, performance=performance)
             )
@@ -219,7 +218,7 @@ def main() -> None:
 
                 ax.zaxis.set_major_formatter(FuncFormatter(log_tick_formatter))  # type: ignore
                 ax.zaxis.set_major_locator(MaxNLocator(integer=True))  # type: ignore
-            fig.savefig(data_folder / "elapsed.svg")
+            fig.savefig(results_folder / "elapsed.svg")
         finally:
             close(fig)
 
@@ -263,7 +262,7 @@ def main() -> None:
                 ax.set_yticks(np.arange(window_ticks.size), window_ticks)
                 ax.set_zlabel("precision")  # type: ignore
                 ax.set_zlim((0, 1))  # type: ignore
-            fig.savefig(data_folder / "precision.svg")
+            fig.savefig(results_folder / "precision.svg")
         finally:
             close(fig)
 
@@ -307,7 +306,7 @@ def main() -> None:
                 ax.set_yticks(np.arange(window_ticks.size), window_ticks)
                 ax.set_zlabel("recall")  # type: ignore
                 ax.set_zlim((0, 1))  # type: ignore
-            fig.savefig(data_folder / "recall.svg")
+            fig.savefig(results_folder / "recall.svg")
         finally:
             close(fig)
 
