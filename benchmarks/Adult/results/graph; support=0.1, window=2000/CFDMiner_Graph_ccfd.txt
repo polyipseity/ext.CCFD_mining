@@ -1,0 +1,22 @@
+[education-num] => education, (10 || Some-college), support : 10878
+[education] => education-num, (Some-college || 10), support : 10878
+[education-num] => education, (13 || Bachelors), support : 8025
+[education] => education-num, (Bachelors || 13), support : 8025
+[relationship] => marital-status, (Husband || Married-civ-spouse), support : 12087
+[education-num] => education, (9 || HS-grad), support : 15784
+[education] => education-num, (HS-grad || 9), support : 15784
+[relationship] => sex, (Husband || Male), support : 18903
+[marital-status, sex, income] => relationship, (Married-civ-spouse, Male, >50K. || Husband), support : 1228
+[marital-status, sex, hours-per-week] => relationship, (Married-civ-spouse, Male, 40 || Husband), support : 1144
+[marital-status, sex, native-country, workclass] => relationship, (Married-civ-spouse, Male, United-States, Private || Husband), support : 667
+[relationship, capital-gain, workclass] => income, (Own-child, 0, Private || <=50K), support : 456
+[marital-status, sex, workclass, income] => relationship, (Married-civ-spouse, Male, Private, >50K. || Husband), support : 446
+[relationship, capital-loss, workclass] => income, (Own-child, 0, Private || <=50K), support : 229
+[relationship, native-country, workclass] => income, (Own-child, United-States, Private || <=50K), support : 216
+[income, relationship] => capital-loss, (<=50K, Unmarried || 0), support : 209
+[relationship, native-country, workclass] => income, (Own-child, United-States, Private || <=50K.), support : 207
+[relationship, race, workclass] => income, (Own-child, White, Private || <=50K), support : 200
+[marital-status, relationship, capital-gain, capital-loss] => income, (Never-married, Own-child, 0, 0 || <=50K), support : 294
+[relationship, capital-gain] => income, (Own-child, 0 || <=50K), support : 298
+[marital-status, relationship, capital-gain] => income, (Never-married, Own-child, 0 || <=50K), support : 281
+[marital-status, relationship, race, income] => capital-loss, (Never-married, Own-child, White, <=50K. || 0), support : 234

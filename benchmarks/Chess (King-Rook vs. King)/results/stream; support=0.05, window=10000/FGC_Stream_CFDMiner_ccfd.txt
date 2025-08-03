@@ -1,0 +1,6 @@
+[white-king-rank] => white-king-file, (4 || d), support : 5514
+[white-depth-of-win] => white-king-rank, (thirteen || 1), support : 747
+[white-king-file] => white-king-rank, (a || 1), support : 2561
+[white-depth-of-win] => white-king-file, (nine || d), support : 817
+[white-depth-of-win] => white-king-file, (eleven || d), support : 656
+[white-king-file, white-depth-of-win] => white-king-rank, (d, fourteen || 1), support : 887

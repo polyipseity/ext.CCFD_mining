@@ -1,0 +1,62 @@
+[education-num, relationship, workclass] => marital-status, (13, Husband, Private || Married-civ-spouse), support: 2289
+[workclass] => occupation, (? || ?), support: 1836
+[relationship, income, education] => marital-status, (Husband, >50K, Some-college || Married-civ-spouse), support: 1076
+[relationship, income, education-num] => marital-status, (Husband, >50K, 10 || Married-civ-spouse), support: 1076
+[relationship, occupation] => sex, (Husband, Craft-repair || Male), support: 3731
+[relationship, occupation] => sex, (Husband, Transport-moving || Male), support: 1450
+[education-num] => education, (6 || 10th), support: 1389
+[education-num] => education, (14 || Masters), support: 2657
+[education-num] => education, (13 || Bachelors), support: 8025
+[education] => education-num, (Bachelors || 13), support: 8025
+[relationship, education] => sex, (Husband, Masters || Male), support: 1339
+[relationship, education] => marital-status, (Husband, Masters || Married-civ-spouse), support: 1339
+[education, relationship, workclass] => marital-status, (Bachelors, Husband, Private || Married-civ-spouse), support: 2289
+[race, hours-per-week, relationship, income] => marital-status, (White, 40, Husband, <=50K. || Married-civ-spouse), support: 1545
+[education] => education-num, (10th || 6), support: 1389
+[education-num, relationship] => sex, (13, Husband || Male), support: 3636
+[relationship, workclass] => sex, (Husband, Local-gov || Male), support: 1288
+[relationship, workclass] => marital-status, (Husband, Local-gov || Married-civ-spouse), support: 1288
+[relationship, occupation] => sex, (Husband, Prof-specialty || Male), support: 2693
+[education-num] => education, (9 || HS-grad), support: 15784
+[relationship, income] => sex, (Husband, <=50K. || Male), support: 3595
+[education, relationship] => sex, (Bachelors, Husband || Male), support: 3636
+[relationship, hours-per-week] => sex, (Husband, 45 || Male), support: 1457
+[relationship, hours-per-week] => marital-status, (Husband, 45 || Married-civ-spouse), support: 1457
+[hours-per-week, income, relationship, education] => marital-status, (40, <=50K, Husband, HS-grad || Married-civ-spouse), support: 1588
+[education] => education-num, (Assoc-voc || 11), support: 2061
+[education-num] => education, (11 || Assoc-voc), support: 2061
+[hours-per-week, income, relationship, education-num] => marital-status, (40, <=50K, Husband, 9 || Married-civ-spouse), support: 1588
+[race, relationship, education, income] => marital-status, (White, Husband, HS-grad, <=50K. || Married-civ-spouse), support: 1303
+[education] => education-num, (HS-grad || 9), support: 15784
+[relationship, income] => sex, (Husband, >50K. || Male), support: 2928
+[relationship, income] => marital-status, (Husband, >50K. || Married-civ-spouse), support: 2928
+[race, relationship, occupation] => marital-status, (White, Husband, Machine-op-inspct || Married-civ-spouse), support: 1157
+[hours-per-week, relationship, occupation] => marital-status, (40, Husband, Prof-specialty || Married-civ-spouse), support: 1034
+[education] => education-num, (Some-college || 10), support: 10878
+[education-num] => education, (10 || Some-college), support: 10878
+[race, relationship, education-num, income] => marital-status, (White, Husband, 9, <=50K. || Married-civ-spouse), support: 1303
+[relationship, hours-per-week] => sex, (Husband, 60 || Male), support: 1366
+[income, relationship, workclass, occupation] => marital-status, (<=50K, Husband, Private, Craft-repair || Married-civ-spouse), support: 1260
+[relationship, education-num] => sex, (Husband, 14 || Male), support: 1339
+[relationship, education-num] => marital-status, (Husband, 14 || Married-civ-spouse), support: 1339
+[relationship, education] => sex, (Husband, Some-college || Male), support: 3658
+[relationship, education-num] => sex, (Husband, 10 || Male), support: 3658
+[education, hours-per-week, relationship] => marital-status, (Bachelors, 40, Husband || Married-civ-spouse), support: 1468
+[education-num, hours-per-week, relationship] => marital-status, (13, 40, Husband || Married-civ-spouse), support: 1468
+[education] => education-num, (Masters || 14), support: 2657
+[relationship, workclass, occupation] => marital-status, (Husband, Private, Prof-specialty || Married-civ-spouse), support: 1473
+[relationship, income] => sex, (Husband, >50K || Male), support: 5918
+[education] => education-num, (Assoc-acdm || 12), support: 1601
+[education-num] => education, (12 || Assoc-acdm), support: 1601
+[hours-per-week, income, relationship, occupation] => marital-status, (40, <=50K, Husband, Craft-repair || Married-civ-spouse), support: 1035
+[occupation, relationship] => sex, (Exec-managerial, Husband || Male), support: 3231
+[occupation, relationship] => marital-status, (Exec-managerial, Husband || Married-civ-spouse), support: 3231
+[relationship, race] => sex, (Husband, Black || Male), support: 1011
+[relationship, hours-per-week] => sex, (Husband, 50 || Male), support: 2482
+[relationship, workclass, hours-per-week] => marital-status, (Husband, Private, 50 || Married-civ-spouse), support: 1609
+[workclass, relationship] => sex, (Self-emp-not-inc, Husband || Male), support: 2343
+[relationship, occupation] => sex, (Husband, Machine-op-inspct || Male), support: 1323
+[education-num] => education, (7 || 11th), support: 1812
+[education] => education-num, (11th || 7), support: 1812
+[relationship, workclass] => sex, (Husband, Self-emp-inc || Male), support: 1189
+[relationship, workclass] => marital-status, (Husband, Self-emp-inc || Married-civ-spouse), support: 1189

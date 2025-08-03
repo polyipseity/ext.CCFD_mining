@@ -1,0 +1,7 @@
+[education-num] => education, (10 || Some-college), support : 10878
+[education] => education-num, (Some-college || 10), support : 10878
+[education-num] => education, (13 || Bachelors), support : 8025
+[education] => education-num, (Bachelors || 13), support : 8025
+[education] => education-num, (HS-grad || 9), support : 15784
+[education-num] => education, (9 || HS-grad), support : 15784
+[relationship] => sex, (Husband || Male), support : 15717
