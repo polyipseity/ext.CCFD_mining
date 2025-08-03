@@ -1,7 +1,0 @@
-[white-king-file, black-king-file] => white-king-rank, (b, a || 1), support: 372
-[white-king-file, black-king-file] => white-king-rank, (b, b || 1), support: 372
-[white-king-rank] => white-king-file, (4 || d), support: 1720
-[black-king-file, white-king-file] => white-king-rank, (c, b || 1), support: 372
-[white-king-file, white-depth-of-win] => white-king-rank, (d, fifteen || 1), support: 344
-[white-king-file] => white-king-rank, (a || 1), support: 1878
-[white-depth-of-win] => white-king-rank, (sixteen || 1), support: 390

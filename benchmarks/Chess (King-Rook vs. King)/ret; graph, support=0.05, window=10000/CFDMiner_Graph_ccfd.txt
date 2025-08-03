@@ -1,1 +1,0 @@
-[white-king-rank] => white-king-file, (4 || d), support : 1720
