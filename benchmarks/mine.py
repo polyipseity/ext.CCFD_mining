@@ -37,6 +37,12 @@ INPUT_PATH_PLACEHOLDER = object()
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
+class SameAbsoluteSupportPlaceholder:
+    support: float
+    window: int
+
+
+@dataclass(frozen=True, kw_only=True, slots=True)
 class PartitionedInputPathsPlaceholder:
     window: int
 
@@ -56,7 +62,7 @@ BENCHMARKS = MappingProxyType(
             f"stream, support={sup}, window={win}": (
                 STREAM_MINER,
                 INPUT_PATH_PLACEHOLDER,
-                str(sup),
+                SameAbsoluteSupportPlaceholder(support=sup, window=win),
                 str(win),
             )
             for sup in (0.1, 0.05, 0.01, 0.005)
@@ -65,7 +71,7 @@ BENCHMARKS = MappingProxyType(
         **{
             f"graph, support={sup}, window={win}": (
                 CFD_MINER_GRAPH,
-                str(sup),
+                SameAbsoluteSupportPlaceholder(support=sup, window=win),
                 str(MAX_ITEM_SET_SIZE),
                 PartitionedInputPathsPlaceholder(window=win),
             )
@@ -99,6 +105,12 @@ def main() -> None:
                     for arg in args:
                         if arg is INPUT_PATH_PLACEHOLDER:
                             yield data_csv_filepath
+                            continue
+                        if isinstance(arg, SameAbsoluteSupportPlaceholder):
+                            with data_csv_filepath.open("rb") as data_csv_file:
+                                data_size = max(0, sum(1 for _ in data_csv_file) - 1)
+                            absolute_support = data_size * arg.support
+                            yield str(absolute_support / arg.window)
                             continue
                         if isinstance(arg, PartitionedInputPathsPlaceholder):
                             with data_csv_filepath.open("rb") as data_csv_file:
