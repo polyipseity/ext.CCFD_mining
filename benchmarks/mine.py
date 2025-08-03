@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from glob import iglob
-from itertools import zip_longest
 from json import dump, load
 from os import name
 from pathlib import Path, PurePath
@@ -10,6 +9,9 @@ from sys import stderr, stdout
 from tempfile import TemporaryDirectory
 from time import monotonic_ns
 from types import MappingProxyType
+
+from more_itertools import windowed
+
 
 """
 where
@@ -35,6 +37,7 @@ CFD_MINER_GRAPH = (
 
 MAX_ITEM_SET_SIZE = 255
 INPUT_PATH_PLACEHOLDER = object()
+WINDOW_SHIFT_SIZE_FACTOR = 0.25
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
@@ -43,8 +46,9 @@ class AbsoluteSupportPlaceholder:
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
-class PartitionedInputPathsPlaceholder:
+class WindowedInputPathsPlaceholder:
     window: int
+    window_shift: int
 
 
 BENCHMARKS = MappingProxyType(
@@ -74,7 +78,9 @@ BENCHMARKS = MappingProxyType(
                 CFD_MINER_GRAPH,
                 str(sup),
                 str(MAX_ITEM_SET_SIZE),
-                PartitionedInputPathsPlaceholder(window=win),
+                WindowedInputPathsPlaceholder(
+                    window=win, window_shift=round(win * WINDOW_SHIFT_SIZE_FACTOR)
+                ),
             )
             for sup in (0.1, 0.05, 0.01, 0.005)
             for win in (10000, 5000, 2000, 1000)
@@ -112,14 +118,17 @@ def main() -> None:
                                 data_size = max(0, sum(1 for _ in data_csv_file) - 1)
                             yield str(arg.support / data_size)
                             continue
-                        if isinstance(arg, PartitionedInputPathsPlaceholder):
+                        if isinstance(arg, WindowedInputPathsPlaceholder):
                             with data_csv_filepath.open("rb") as data_csv_file:
                                 try:
                                     header = next(data_csv_file)
                                 except StopIteration:
                                     continue
-                                for lines in zip_longest(
-                                    *((data_csv_file,) * arg.window)
+                                for lines in windowed(
+                                    data_csv_file,
+                                    arg.window,
+                                    step=arg.window_shift,
+                                    fillvalue=None,
                                 ):
                                     content = b"".join(
                                         line for line in lines if line is not None
