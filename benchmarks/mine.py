@@ -91,18 +91,19 @@ BENCHMARKS = MappingProxyType(
             for sup in (0.1, 0.05, 0.01, 0.005)
             for win in (10000, 5000, 2000, 1000)
         },
-        **{
-            f"graph+probability; support={sup}, window={win}": (
-                GRAPH_MINER_PROBABILITY,
-                str(sup),
-                str(MAX_ITEM_SET_SIZE),
-                WindowedInputPathsPlaceholder(
-                    window=win, window_shift=round(win * WINDOW_SHIFT_SIZE_FACTOR)
-                ),
-            )
-            for sup in (0.1, 0.05, 0.01, 0.005)
-            for win in (10000, 5000, 2000, 1000)
-        },
+        # It seems ineffective...
+        # **{
+        #     f"graph+probability; support={sup}, window={win}": (
+        #         GRAPH_MINER_PROBABILITY,
+        #         str(sup),
+        #         str(MAX_ITEM_SET_SIZE),
+        #         WindowedInputPathsPlaceholder(
+        #             window=win, window_shift=round(win * WINDOW_SHIFT_SIZE_FACTOR)
+        #         ),
+        #     )
+        #     for sup in (0.1, 0.05, 0.01, 0.005)
+        #     for win in (10000, 5000, 2000, 1000)
+        # },
         # It seems like arity affects the performance more severely than size...
         # **{
         #     f"default+flat; support={round(sup * win)}": (
