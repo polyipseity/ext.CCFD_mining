@@ -19,10 +19,12 @@ GENERATED_DATA = MappingProxyType(
             size=size,
             cf=cf,
         )
-        for arity in (1, 2, 5, 10, 20, 50)
-        for size in (100, 1000, 10000)
+        for arity in (10, 20, 50)
+        # for arity in (1, 2, 5, 10, 20, 50)
+        for size in (1000, 10000)
+        # for size in (100, 1000, 10000)
+        for cf in (0.3, 0.5)
         # for cf in (0.1, 0.3, 0.5)
-        for cf in (0.5,)
     }
 )
 
@@ -31,7 +33,7 @@ def main() -> None:
     cwd_path = Path("./")
     for folder_name, args in GENERATED_DATA.items():
         folder_path = cwd_path / folder_name
-        folder_path.mkdir()
+        folder_path.mkdir(exist_ok=True)
 
         data_file_path = folder_path / "data.csv"
 
@@ -41,6 +43,7 @@ def main() -> None:
             ):
                 data_file.write(line)
                 data_file.write("\n")
+            data_file.truncate()
 
 
 def generate_data_lines(
@@ -52,12 +55,16 @@ def generate_data_lines(
     seed: int = 42,
 ) -> Iterator[str]:
     random = Random(seed)
-    possible_values_num = int(size * (1 - correlation_factor))
+    possible_tuples_count = int(size * (1 - correlation_factor))
+    possible_tuples = tuple(
+        ",".join(str(random.randrange(possible_tuples_count)) for _ in range(arity))
+        for _ in range(possible_tuples_count)
+    )
 
     if header:
         yield ",".join(map(str, range(arity)))
     for _ in range(size):
-        yield ",".join(str(random.randrange(possible_values_num)) for _ in range(arity))
+        yield possible_tuples[random.randrange(possible_tuples_count)]
 
 
 if __name__ == "__main__":
