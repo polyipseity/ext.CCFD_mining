@@ -229,6 +229,9 @@ def main() -> None:
                 for result in results:
                     if result.performance.get("precision", -1) == -1:
                         continue
+                    if result.performance["precision"] == 0:
+                        # If data size is less than window size, our current implementation of the stream miner will produce no rules.
+                        continue
                     for key, val in result.parameters.items():
                         data[key].append(val)
                     data["precision"].append(result.performance["precision"])
