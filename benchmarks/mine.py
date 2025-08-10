@@ -69,16 +69,17 @@ BENCHMARKS = MappingProxyType(
             for sup in (0.1, 0.05, 0.01, 0.005)
             for win in (10000, 5000, 2000, 1000)
         },
-        **{
-            f"stream; support={sup}, window={win}": (
-                STREAM_MINER,
-                INPUT_PATH_PLACEHOLDER,
-                str(sup),
-                str(win),
-            )
-            for sup in (0.1, 0.05, 0.01, 0.005)
-            for win in (10000, 5000, 2000, 1000)
-        },
+        # Generally slow to run...
+        # **{
+        #     f"stream; support={sup}, window={win}": (
+        #         STREAM_MINER,
+        #         INPUT_PATH_PLACEHOLDER,
+        #         str(sup),
+        #         str(win),
+        #     )
+        #     for sup in (0.1, 0.05, 0.01, 0.005)
+        #     for win in (10000, 5000, 2000, 1000)
+        # },
         **{
             f"graph; support={sup}, window={win}": (
                 GRAPH_MINER,
