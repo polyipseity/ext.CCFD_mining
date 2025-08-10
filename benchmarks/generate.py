@@ -23,8 +23,8 @@ GENERATED_DATA = MappingProxyType(
         # for arity in (1, 2, 5, 10, 20, 50)
         for size in (1000, 10000)
         # for size in (100, 1000, 10000)
-        for cf in (0.3, 0.5)
-        # for cf in (0.1, 0.3, 0.5)
+        for cf in (0.5, 0.7)
+        # for cf in (0.1, 0.3, 0.5, 0.7, 0.9)
     }
 )
 
@@ -55,9 +55,10 @@ def generate_data_lines(
     seed: int = 42,
 ) -> Iterator[str]:
     random = Random(seed)
+    possible_values_count = max(2, int(size ** (1 / arity)))
     possible_tuples_count = int(size * (1 - correlation_factor))
     possible_tuples = tuple(
-        ",".join(str(random.randrange(possible_tuples_count)) for _ in range(arity))
+        ",".join(str(random.randrange(possible_values_count)) for _ in range(arity))
         for _ in range(possible_tuples_count)
     )
 
