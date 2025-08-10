@@ -19,7 +19,7 @@ def fetch(id: int, *, name: str) -> None:
 
     dataset = fetch_ucirepo(id=id)
     folder_path.mkdir(exist_ok=True)
-    dataset.data.original.to_csv(data_path)
+    dataset.data.original.to_csv(data_path, index=False)
 
 
 if __name__ == "__main__":
