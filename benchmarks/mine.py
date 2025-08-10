@@ -30,9 +30,13 @@ CFD_MINER = (
 STREAM_MINER = (
     EXECUTABLE_FOLDER_PATH / f"FGC_Stream_CFDMiner{'.exe' if name == 'nt' else ''}"
 )  # FGC_Stream_CFDMiner [csv_file_path] [minsupp] [window_size] [exit_at]
-CFD_MINER_GRAPH = (
+GRAPH_MINER = (
     EXECUTABLE_FOLDER_PATH / f"CFDMiner_Graph{'.exe' if name == 'nt' else ''}"
 )  # CFDMiner_Graph [minsupp] [maxsize] [csv_files_folder...]
+GRAPH_MINER_PROBABILITY = (
+    EXECUTABLE_FOLDER_PATH
+    / f"CFDMiner_Graph_Probability{'.exe' if name == 'nt' else ''}"
+)  # CFDMiner_Graph_Probability [minsupp] [maxsize] [csv_files_folder...]
 
 
 MAX_ITEM_SET_SIZE = 255
@@ -75,7 +79,19 @@ BENCHMARKS = MappingProxyType(
         },
         **{
             f"graph; support={sup}, window={win}": (
-                CFD_MINER_GRAPH,
+                GRAPH_MINER,
+                str(sup),
+                str(MAX_ITEM_SET_SIZE),
+                WindowedInputPathsPlaceholder(
+                    window=win, window_shift=round(win * WINDOW_SHIFT_SIZE_FACTOR)
+                ),
+            )
+            for sup in (0.1, 0.05, 0.01, 0.005)
+            for win in (10000, 5000, 2000, 1000)
+        },
+        **{
+            f"graph+probability; support={sup}, window={win}": (
+                GRAPH_MINER_PROBABILITY,
                 str(sup),
                 str(MAX_ITEM_SET_SIZE),
                 WindowedInputPathsPlaceholder(

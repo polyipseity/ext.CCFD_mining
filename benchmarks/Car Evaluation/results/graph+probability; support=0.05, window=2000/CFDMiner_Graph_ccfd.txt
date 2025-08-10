@@ -1,0 +1,2 @@
+[safety] => class, (low || unacc), support : 1
+[buying, maint] => class, (high, vhigh || unacc), support : 1

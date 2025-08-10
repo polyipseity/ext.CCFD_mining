@@ -1,0 +1,60 @@
+[education-num] => education, (14 || Masters), support : 34
+[workclass] => occupation, (? || ?), support : 22
+[hours-per-week, relationship] => marital-status, (40, Husband || Married-civ-spouse), support : 15
+[education-num, relationship] => marital-status, (13, Husband || Married-civ-spouse), support : 21
+[relationship] => sex, (Wife || Female), support : 6
+[education-num, relationship] => marital-status, (10, Husband || Married-civ-spouse), support : 17
+[hours-per-week, relationship] => marital-status, (50, Husband || Married-civ-spouse), support : 11
+[education] => education-num, (Bachelors || 13), support : 37
+[occupation] => workclass, (? || ?), support : 5
+[education-num, marital-status, sex] => relationship, (13, Married-civ-spouse, Male || Husband), support : 9
+[occupation] => workclass, ( || ), support : 4
+[marital-status, occupation] => income, (Never-married, Other-service || <=50K), support : 3
+[education, relationship] => marital-status, (HS-grad, Husband || Married-civ-spouse), support : 9
+[marital-status, sex, workclass, income] => relationship, (Married-civ-spouse, Male, Private, >50K. || Husband), support : 3
+[education] => education-num, (Some-college || 10), support : 37
+[education-num] => education, (9 || HS-grad), support : 37
+[education-num, marital-status, relationship] => income, (10, Never-married, Own-child || <=50K), support : 5
+[relationship, workclass] => marital-status, (Husband, Self-emp-not-inc || Married-civ-spouse), support : 5
+[capital-gain, marital-status, relationship, sex] => income, (0, Never-married, Own-child, Male || <=50K), support : 2
+[capital-gain, relationship, sex, workclass] => income, (0, Own-child, Female, Private || <=50K), support : 2
+[income, marital-status, occupation, capital-loss] => sex, (<=50K, Married-civ-spouse, Craft-repair, 0 || Male), support : 2
+[capital-gain, marital-status, occupation, capital-loss] => sex, (0, Married-civ-spouse, Craft-repair, 0 || Male), support : 2
+[hours-per-week, marital-status, sex] => relationship, (50, Married-civ-spouse, Male || Husband), support : 2
+[relationship, race] => marital-status, (Husband, White || Married-civ-spouse), support : 4
+[capital-gain, marital-status, sex, income] => relationship, (0, Married-civ-spouse, Male, >50K. || Husband), support : 2
+[capital-gain, education, hours-per-week, marital-status] => income, (0, HS-grad, 40, Never-married || <=50K), support : 3
+[education-num, marital-status, native-country, sex, race] => relationship, (10, Married-civ-spouse, United-States, Male, White || Husband), support : 3
+[capital-gain, hours-per-week, income, marital-status, native-country, sex, workclass] => relationship, (0, 40, <=50K, Married-civ-spouse, United-States, Male, Private || Husband), support : 1
+[capital-gain, hours-per-week, marital-status, relationship] => income, (0, 40, Never-married, Own-child || <=50K), support : 1
+[capital-gain, education-num, marital-status, native-country, sex] => relationship, (0, 10, Married-civ-spouse, United-States, Male || Husband), support : 2
+[relationship, occupation] => marital-status, (Husband, Sales || Married-civ-spouse), support : 2
+[income, relationship] => sex, (>50K, Husband || Male), support : 4
+[sex, occupation] => capital-loss, (Female, Other-service || 0), support : 1
+[relationship, workclass, capital-loss, race] => income, (Own-child, Private, 0, White || <=50K), support : 1
+[hours-per-week, income, marital-status, native-country, sex] => relationship, (40, >50K, Married-civ-spouse, United-States, Male || Husband), support : 1
+[hours-per-week, marital-status, occupation] => sex, (40, Married-civ-spouse, Craft-repair || Male), support : 1
+[education-num, marital-status, sex] => relationship, (10, Married-civ-spouse, Male || Husband), support : 2
+[capital-gain, income, marital-status, sex] => relationship, (0, >50K, Married-civ-spouse, Male || Husband), support : 1
+[marital-status, relationship, sex, race] => income, (Never-married, Own-child, Male, White || <=50K), support : 1
+[marital-status, relationship, workclass] => income, (Never-married, Own-child, Private || <=50K), support : 1
+[capital-gain, marital-status, occupation, capital-loss, race] => sex, (0, Married-civ-spouse, Craft-repair, 0, White || Male), support : 1
+[education-num, marital-status, sex, race] => relationship, (10, Married-civ-spouse, Male, White || Husband), support : 2
+[marital-status, sex, income] => relationship, (Married-civ-spouse, Male, >50K. || Husband), support : 1
+[education-num, relationship] => sex, (13, Husband || Male), support : 4
+[capital-gain, native-country, relationship, sex] => income, (0, United-States, Own-child, Female || <=50K), support : 2
+[capital-gain, marital-status, occupation] => sex, (0, Married-civ-spouse, Craft-repair || Male), support : 2
+[capital-gain, education, marital-status, sex, workclass] => relationship, (0, HS-grad, Married-civ-spouse, Male, Private || Husband), support : 1
+[capital-gain, education, income, marital-status, sex, workclass] => relationship, (0, HS-grad, <=50K, Married-civ-spouse, Male, Private || Husband), support : 1
+[relationship, workclass] => sex, (Husband, Self-emp-not-inc || Male), support : 1
+[marital-status, occupation, race] => sex, (Married-civ-spouse, Craft-repair, White || Male), support : 1
+[hours-per-week, income, relationship] => marital-status, (40, <=50K, Husband || Married-civ-spouse), support : 1
+[education-num, marital-status, native-country, workclass, capital-loss] => income, (10, Never-married, United-States, Private, 0 || <=50K), support : 1
+[capital-gain, education-num, marital-status, workclass] => income, (0, 10, Never-married, Private || <=50K), support : 1
+[capital-gain, marital-status, occupation, race] => sex, (0, Married-civ-spouse, Craft-repair, White || Male), support : 1
+[education-num, marital-status, sex, workclass] => relationship, (10, Married-civ-spouse, Male, Private || Husband), support : 1
+[capital-gain, education, marital-status, workclass] => income, (0, HS-grad, Never-married, Private || <=50K), support : 1
+[capital-gain, education, marital-status, sex, workclass, capital-loss] => income, (0, HS-grad, Never-married, Male, Private, 0 || <=50K), support : 1
+[education, marital-status, sex, workclass, race] => relationship, (HS-grad, Married-civ-spouse, Male, Private, White || Husband), support : 1
+[education, relationship, workclass] => marital-status, (HS-grad, Husband, Private || Married-civ-spouse), support : 1
+[occupation, relationship, workclass] => marital-status, (Craft-repair, Husband, Private || Married-civ-spouse), support : 1

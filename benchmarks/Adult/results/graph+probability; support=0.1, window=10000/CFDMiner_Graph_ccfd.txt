@@ -1,0 +1,9 @@
+[education] => education-num, (Bachelors || 13), support : 17
+[education] => education-num, (Some-college || 10), support : 17
+[education-num] => education, (9 || HS-grad), support : 17
+[relationship, hours-per-week] => marital-status, (Husband, 40 || Married-civ-spouse), support : 9
+[relationship, income] => marital-status, (Husband, <=50K || Married-civ-spouse), support : 3
+[relationship, income, workclass] => marital-status, (Husband, <=50K, Private || Married-civ-spouse), support : 2
+[income, relationship] => marital-status, (>50K, Husband || Married-civ-spouse), support : 1
+[relationship, workclass] => marital-status, (Husband, Private || Married-civ-spouse), support : 1
+[relationship, hours-per-week, race] => marital-status, (Husband, 40, White || Married-civ-spouse), support : 1

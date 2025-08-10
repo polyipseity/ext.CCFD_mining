@@ -1,0 +1,35 @@
+[education-num] => education, (13 || Bachelors), support : 95
+[education-num] => education, (10 || Some-college), support : 95
+[relationship, hours-per-week] => marital-status, (Husband, 40 || Married-civ-spouse), support : 26
+[marital-status, sex, income] => relationship, (Married-civ-spouse, Male, >50K. || Husband), support : 12
+[education-num] => education, (9 || HS-grad), support : 95
+[marital-status, sex, income] => relationship, (Married-civ-spouse, Male, >50K || Husband), support : 10
+[income, relationship] => marital-status, (<=50K, Husband || Married-civ-spouse), support : 15
+[marital-status, sex, capital-gain, income] => relationship, (Married-civ-spouse, Male, 0, >50K || Husband), support : 5
+[relationship, income] => marital-status, (Husband, >50K. || Married-civ-spouse), support : 10
+[relationship, workclass, capital-gain] => income, (Own-child, Private, 0 || <=50K), support : 7
+[education, marital-status, sex, race] => relationship, (HS-grad, Married-civ-spouse, Male, White || Husband), support : 6
+[income, relationship] => capital-loss, (<=50K, Unmarried || 0), support : 3
+[marital-status, sex, capital-gain, income] => relationship, (Married-civ-spouse, Male, 0, >50K. || Husband), support : 3
+[relationship, income] => sex, (Husband, >50K || Male), support : 4
+[relationship, workclass, race] => income, (Own-child, Private, White || <=50K), support : 2
+[marital-status, sex, native-country, income] => relationship, (Married-civ-spouse, Male, United-States, >50K || Husband), support : 2
+[marital-status, native-country, capital-gain, race, sex] => income, (Never-married, United-States, 0, White, Female || <=50K.), support : 2
+[marital-status, sex, native-country] => relationship, (Married-civ-spouse, Male, United-States || Husband), support : 2
+[marital-status, relationship, race] => income, (Never-married, Own-child, White || <=50K), support : 4
+[income, marital-status, sex, native-country, workclass, capital-gain] => relationship, (<=50K, Married-civ-spouse, Male, United-States, Private, 0 || Husband), support : 1
+[marital-status, sex, native-country, workclass, capital-gain, race] => relationship, (Married-civ-spouse, Male, United-States, Private, 0, White || Husband), support : 1
+[marital-status, relationship, capital-gain, capital-loss] => income, (Never-married, Own-child, 0, 0 || <=50K), support : 4
+[income, marital-status, sex, hours-per-week, race] => relationship, (<=50K, Married-civ-spouse, Male, 40, White || Husband), support : 1
+[marital-status, workclass, capital-gain, capital-loss, sex] => income, (Never-married, Private, 0, 0, Female || <=50K), support : 1
+[income, marital-status, sex, workclass, race] => relationship, (<=50K, Married-civ-spouse, Male, Private, White || Husband), support : 1
+[marital-status, hours-per-week, workclass, capital-gain, capital-loss] => income, (Never-married, 40, Private, 0, 0 || <=50K), support : 1
+[marital-status, sex, native-country, income] => relationship, (Married-civ-spouse, Male, United-States, <=50K. || Husband), support : 1
+[marital-status, native-country, capital-gain, sex] => income, (Never-married, United-States, 0, Female || <=50K.), support : 1
+[relationship, capital-gain, capital-loss] => income, (Own-child, 0, 0 || <=50K), support : 2
+[relationship, workclass] => income, (Own-child, Private || <=50K), support : 4
+[education, marital-status, sex, capital-gain] => relationship, (HS-grad, Married-civ-spouse, Male, 0 || Husband), support : 1
+[education, income, hours-per-week, native-country, race] => capital-loss, (HS-grad, <=50K, 40, United-States, White || 0), support : 1
+[education, marital-status, sex, native-country] => relationship, (HS-grad, Married-civ-spouse, Male, United-States || Husband), support : 1
+[education, marital-status] => income, (HS-grad, Never-married || <=50K.), support : 1
+[marital-status, relationship, native-country, capital-gain] => income, (Never-married, Own-child, United-States, 0 || <=50K.), support : 3

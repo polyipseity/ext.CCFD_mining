@@ -1,0 +1,22 @@
+[education] => education-num, (Masters || 14), support : 16
+[workclass] => occupation, (? || ?), support : 10
+[hours-per-week, relationship] => marital-status, (40, Husband || Married-civ-spouse), support : 9
+[education-num] => education, (10 || Some-college), support : 17
+[education-num] => education, (9 || HS-grad), support : 17
+[education-num] => education, (13 || Bachelors), support : 17
+[income, marital-status, occupation, capital-loss] => sex, (<=50K, Married-civ-spouse, Craft-repair, 0 || Male), support : 2
+[marital-status, relationship, capital-gain, race, sex] => income, (Never-married, Own-child, 0, White, Female || <=50K.), support : 2
+[education, relationship] => marital-status, (HS-grad, Husband || Married-civ-spouse), support : 5
+[occupation, relationship] => sex, (Exec-managerial, Husband || Male), support : 3
+[occupation, relationship] => sex, (Prof-specialty, Husband || Male), support : 3
+[occupation, relationship] => sex, (Craft-repair, Husband || Male), support : 3
+[relationship, hours-per-week] => sex, (Husband, 50 || Male), support : 2
+[hours-per-week, income, relationship] => marital-status, (40, <=50K, Husband || Married-civ-spouse), support : 2
+[income, relationship, workclass] => marital-status, (<=50K, Husband, Private || Married-civ-spouse), support : 2
+[relationship, income] => marital-status, (Husband, <=50K. || Married-civ-spouse), support : 2
+[marital-status, occupation, capital-gain, capital-loss, race] => sex, (Married-civ-spouse, Craft-repair, 0, 0, White || Male), support : 1
+[relationship, workclass] => marital-status, (Husband, Self-emp-not-inc || Married-civ-spouse), support : 2
+[education, marital-status, sex] => relationship, (Bachelors, Married-civ-spouse, Male || Husband), support : 2
+[education, relationship] => sex, (Bachelors, Husband || Male), support : 3
+[income, relationship] => marital-status, (>50K, Husband || Married-civ-spouse), support : 1
+[relationship, workclass] => marital-status, (Husband, Private || Married-civ-spouse), support : 1

@@ -1,0 +1,3 @@
+[white-king-file] => white-king-rank, (a || 1), support : 5
+[white-depth-of-win] => white-king-file, (nine || d), support : 1
+[white-king-file, white-depth-of-win] => white-king-rank, (d, fourteen || 1), support : 1

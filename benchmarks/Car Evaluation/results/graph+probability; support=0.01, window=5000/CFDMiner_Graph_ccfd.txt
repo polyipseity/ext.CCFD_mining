@@ -1,0 +1,7 @@
+[buying, lug_boot, safety] => class, (high, small, med || unacc), support : 1
+[buying, lug_boot, safety] => class, (vhigh, small, med || unacc), support : 1
+[persons] => class, (2 || unacc), support : 1
+[lug_boot, maint, safety] => class, (small, vhigh, med || unacc), support : 1
+[buying, class, lug_boot] => safety, (high, acc, small || high), support : 1
+[buying, maint] => class, (high, vhigh || unacc), support : 1
+[buying, maint] => class, (vhigh, vhigh || unacc), support : 1
