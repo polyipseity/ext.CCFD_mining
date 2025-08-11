@@ -1,3 +1,4 @@
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -12,10 +13,11 @@
 
 int main(int argc, char *argv[])
 {
-    // if (argc != 4) {
-    if (argc < 4) {
-        std::cout << "Usage: ./CFDMiner_Graph minsupp maxsize csv_files_folder..." << std::endl;
-		std::cout << "\t where csv_files_folder is the folder containing csv files, minsupp a positive float number specifying the minimum support of the discovered rules (range from 0 to 1), and maxsize a positive integer specifying the maximum size of the rules, i.e., the maximum number of attributes occurring in the rule" << std::endl;
+    // if (argc != 5) {
+    if (argc < 5)
+    {
+        std::cout << "Usage: ./CFDMiner_Graph weight_method minsupp maxsize csv_files_folder..." << std::endl;
+        std::cout << "\t where csv_files_folder is the folder containing csv files, minsupp a positive float number specifying the minimum support of the discovered rules (range from 0 to 1), and maxsize a positive integer specifying the maximum size of the rules, i.e., the maximum number of attributes occurring in the rule" << std::endl;
     }
     else{
         /*
@@ -23,8 +25,9 @@ int main(int argc, char *argv[])
         float supp = std::stof(argv[2]);
         int size = atoi(argv[3]);
         */
-        float supp = std::stof(argv[1]);
-        int size = atoi(argv[2]);
+        std::string weight_method{argv[1]};
+        float supp = std::stof(argv[2]);
+        int size = atoi(argv[3]);
 
         // read all filenames in the folder
         std::vector<std::string> partition_filenames;
@@ -45,7 +48,8 @@ int main(int argc, char *argv[])
             return 1;
         }
         */
-        for (int idx{3}; idx < argc; ++idx) {
+        for (int idx{4}; idx < argc; ++idx)
+        {
             partition_filenames.emplace_back(argv[idx]);
         }
 
@@ -135,7 +139,17 @@ int main(int argc, char *argv[])
         std::chrono::steady_clock::time_point begin_graph = std::chrono::steady_clock::now();
         // use the graph-based method to resolve conflicts
         ccfdGraph graph;
-        for (const ccfd& rule : unified_ccfd_list) {
+        for (const ccfd& rule : unified_ccfd_list)
+        {
+            int weight{rule.supp};
+            if (weight_method == "logarithmic")
+            {
+                weight = static_cast<int>(std::log(weight) * 1000);
+            }
+            else if (weight_method == "probability")
+            {
+                weight = 1;
+            }
             // convert the ccfd to a ccfdNode
             ccfdNode* node = new ccfdNode(rule.lhs, rule.rhs, rule.supp);
             graph.add_node(node);
