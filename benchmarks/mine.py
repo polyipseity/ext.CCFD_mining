@@ -171,6 +171,8 @@ def main() -> None:
     for data_csv_filepath in iglob("*/*.csv"):
         data_csv_filepath = Path(data_csv_filepath).resolve(strict=True)
         cwd = data_csv_filepath.parent
+        if (cwd / ".ignore").exists():
+            continue
 
         for name, benchmark in BENCHMARKS.items():
             result_folder_path = cwd / "results" / name
