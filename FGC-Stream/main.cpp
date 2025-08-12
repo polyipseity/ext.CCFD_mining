@@ -3,6 +3,7 @@
 #include "../data/dbtoken.h"
 #include "../algorithms/clogenmerger.h"
 #include "../util/hashstorer.h"
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -406,11 +407,10 @@ void collect_ccfds(std::vector<ccfd>& all_ccfds, std::vector<ccfd>& new_ccfds, s
       all_ccfds.push_back(*new_ccfd_it);
     }
   }
-  for (auto all_ccfd_it = all_ccfds.begin(); all_ccfd_it != all_ccfds.end(); ++all_ccfd_it) {
-    if (all_ccfd_it->rhs.empty()) {
-      all_ccfds.erase(all_ccfd_it);
-    }
-  }
+  all_ccfds.erase(std::remove_if(all_ccfds.begin(), all_ccfds.end(), [](ccfd const &ccfd)
+                                 { return ccfd.rhs.empty(); }),
+                  all_ccfds.end());
+
   // for (ccfd ccfd : all_ccfds) {
   //   ccfd.print_ccfd(fIntToTokenMap);
   // }
