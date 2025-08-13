@@ -1,0 +1,22 @@
+[education] => education-num, (HS-grad || 9), support : 54569
+[education-num] => education, (9 || HS-grad), support : 54569
+[education] => education-num, (Some-college || 10), support : 37603
+[education-num] => education, (10 || Some-college), support : 37603
+[education] => education-num, (Masters || 14), support : 8660
+[education-num] => education, (14 || Masters), support : 8660
+[hours-per-week, relationship] => marital-status, (40, Husband || Married-civ-spouse), support : 17022
+[education] => education-num, (Bachelors || 13), support : 27755
+[education-num] => education, (13 || Bachelors), support : 27755
+[workclass] => occupation, (? || ?), support : 5504
+[occupation, relationship] => marital-status, (Exec-managerial, Husband || Married-civ-spouse), support : 10557
+[relationship, income] => marital-status, (Husband, >50K. || Married-civ-spouse), support : 9138
+[workclass] => occupation, ( || ), support : 2264
+[income, relationship] => sex, (>50K, Husband || Male), support : 5347
+[relationship, hours-per-week] => marital-status, (Husband, 50 || Married-civ-spouse), support : 3505
+[relationship, workclass] => marital-status, (Husband, Private || Married-civ-spouse), support : 2653
+[hours-per-week, income, relationship] => marital-status, (40, <=50K, Husband || Married-civ-spouse), support : 2342
+[marital-status, occupation, sex, race] => relationship, (Married-civ-spouse, Prof-specialty, Male, White || Husband), support : 1044
+[occupation, relationship] => sex, (Exec-managerial, Husband || Male), support : 1990
+[occupation, relationship] => sex, (Prof-specialty, Husband || Male), support : 1616
+[relationship, income] => marital-status, (Husband, <=50K. || Married-civ-spouse), support : 1596
+[occupation, relationship, workclass] => marital-status, (Craft-repair, Husband, Private || Married-civ-spouse), support : 531

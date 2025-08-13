@@ -1,0 +1,47 @@
+[education-num] => education, (14 || Masters), support : 9259
+[education] => education-num, (Masters || 14), support : 9259
+[hours-per-week, relationship] => marital-status, (40, Husband || Married-civ-spouse), support : 14341
+[occupation, relationship] => marital-status, (Exec-managerial, Husband || Married-civ-spouse), support : 8884
+[education] => education-num, (Bachelors || 13), support : 30185
+[education-num] => education, (13 || Bachelors), support : 30185
+[education] => education-num, (HS-grad || 9), support : 59392
+[education-num] => education, (9 || HS-grad), support : 59392
+[relationship, race] => marital-status, (Husband, White || Married-civ-spouse), support : 6920
+[workclass] => occupation, ( || ), support : 3151
+[education] => education-num, (Some-college || 10), support : 40997
+[education-num] => education, (10 || Some-college), support : 40997
+[occupation, relationship] => marital-status, (Prof-specialty, Husband || Married-civ-spouse), support : 5342
+[relationship] => marital-status, (Husband || Married-civ-spouse), support : 20015
+[marital-status, occupation, sex] => relationship, (Married-civ-spouse, Exec-managerial, Male || Husband), support : 1602
+[relationship] => sex, (Wife || Female), support : 1526
+[occupation] => workclass, (? || ?), support : 1436
+[capital-gain, marital-status, occupation, sex] => relationship, (0, Married-civ-spouse, Exec-managerial, Male || Husband), support : 1379
+[capital-gain, relationship, workclass, capital-loss] => income, (0, Own-child, Private, 0 || <=50K), support : 1104
+[capital-gain, marital-status, relationship, workclass] => income, (0, Never-married, Own-child, Private || <=50K), support : 1053
+[marital-status, sex, income] => relationship, (Married-civ-spouse, Male, >50K. || Husband), support : 879
+[marital-status, occupation, sex, race] => relationship, (Married-civ-spouse, Prof-specialty, Male, White || Husband), support : 802
+[capital-gain, income, marital-status, sex] => relationship, (0, >50K, Married-civ-spouse, Male || Husband), support : 734
+[capital-gain, marital-status, relationship, sex] => income, (0, Never-married, Own-child, Male || <=50K), support : 723
+[capital-gain, marital-status, occupation, capital-loss] => sex, (0, Married-civ-spouse, Craft-repair, 0 || Male), support : 696
+[relationship, workclass] => marital-status, (Husband, Self-emp-not-inc || Married-civ-spouse), support : 1283
+[capital-gain, relationship, sex, workclass] => income, (0, Own-child, Female, Private || <=50K), support : 544
+[hours-per-week, marital-status, sex] => relationship, (50, Married-civ-spouse, Male || Husband), support : 532
+[native-country, relationship, workclass, capital-loss] => income, (United-States, Own-child, Private, 0 || <=50K), support : 529
+[income, marital-status, occupation, capital-loss] => sex, (<=50K, Married-civ-spouse, Craft-repair, 0 || Male), support : 526
+[marital-status, relationship, workclass] => income, (Never-married, Own-child, Private || <=50K), support : 525
+[marital-status, sex, workclass] => relationship, (Married-civ-spouse, Male, Self-emp-not-inc || Husband), support : 510
+[relationship, workclass, capital-loss, race] => income, (Own-child, Private, 0, White || <=50K), support : 489
+[income, relationship, workclass] => marital-status, (>50K, Husband, Private || Married-civ-spouse), support : 1177
+[hours-per-week, income, marital-status, native-country, sex] => relationship, (40, >50K, Married-civ-spouse, United-States, Male || Husband), support : 362
+[capital-gain, hours-per-week, income, marital-status, native-country, sex, workclass] => relationship, (0, 40, <=50K, Married-civ-spouse, United-States, Male, Private || Husband), support : 308
+[capital-gain, marital-status, occupation, capital-loss, race] => sex, (0, Married-civ-spouse, Craft-repair, 0, White || Male), support : 304
+[marital-status, relationship, sex, workclass] => income, (Never-married, Own-child, Male, Private || <=50K), support : 295
+[native-country, sex, workclass, marital-status] => capital-loss, (United-States, Female, Private, Divorced || 0), support : 289
+[sex, occupation] => capital-loss, (Female, Other-service || 0), support : 268
+[relationship, sex, workclass] => income, (Own-child, Female, Private || <=50K), support : 257
+[relationship, occupation] => marital-status, (Husband, Sales || Married-civ-spouse), support : 511
+[capital-gain, marital-status, occupation] => sex, (0, Married-civ-spouse, Craft-repair || Male), support : 757
+[capital-gain, relationship, sex, race] => income, (0, Own-child, Female, White || <=50K), support : 591
+[capital-gain, marital-status, occupation, race] => sex, (0, Married-civ-spouse, Craft-repair, White || Male), support : 360
+[capital-gain, marital-status, native-country, relationship, sex] => income, (0, Never-married, United-States, Own-child, Female || <=50K.), support : 563
+[occupation, relationship, workclass] => marital-status, (Craft-repair, Husband, Private || Married-civ-spouse), support : 270
