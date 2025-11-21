@@ -1,3 +1,4 @@
+from cProfile import label
 from collections import defaultdict
 from dataclasses import dataclass
 from glob import iglob
@@ -10,6 +11,14 @@ from typing import Any, Mapping, Self
 from matplotlib.pyplot import close, figure
 from matplotlib.ticker import FuncFormatter, MaxNLocator
 import numpy as np
+
+TYPE_TO_NAME = {
+    "default": "CFDMiner",
+    "graph": "CFDMiner+graph",
+    "graph+logarithm": "CFDMiner+graph (log)",
+    "graph+probability": "CFDMiner+graph (#win)",
+    "stream": "CFDMiner+stream",
+}
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
@@ -146,7 +155,7 @@ def main() -> None:
                 Result(type=type, parameters=parameters, performance=performance)
             )
 
-        fig = figure(figsize=(8, 3))
+        fig = figure(figsize=(18, 4))
         try:
             for type_idx, (type, results) in enumerate(typed_results.items()):
                 data = defaultdict[str, list[float]](list)
@@ -206,11 +215,13 @@ def main() -> None:
                 )
                 ax.plot_surface(xx, yy, np.zeros_like(xx), color="red")  # type: ignore
 
-                ax.set_title(type)
-                ax.set_xlabel("support")
+                ax.set_title(TYPE_TO_NAME[type])
+                ax.set_xlabel("support", labelpad=10)
                 ax.set_xticks(np.arange(support_ticks.size), support_ticks)
-                ax.set_ylabel("window")
+                ax.set_xticklabels(ax.get_xticklabels(), rotation=50)
+                ax.set_ylabel("window", labelpad=10)
                 ax.set_yticks(np.arange(window_ticks.size), window_ticks)
+                ax.set_yticklabels(ax.get_yticklabels(), rotation=-30)
                 ax.set_zlabel("elapsed")  # type: ignore
 
                 def log_tick_formatter(val, pos=None):
@@ -222,7 +233,7 @@ def main() -> None:
         finally:
             close(fig)
 
-        fig = figure(figsize=(8, 3))
+        fig = figure(figsize=(18, 4))
         try:
             for type_idx, (type, results) in enumerate(typed_results.items()):
                 data = defaultdict[str, list[float]](list)
@@ -258,18 +269,20 @@ def main() -> None:
                     shade=True,
                 )
 
-                ax.set_title(type)
-                ax.set_xlabel("support")
+                ax.set_title(TYPE_TO_NAME[type])
+                ax.set_xlabel("support", labelpad=10)
                 ax.set_xticks(np.arange(support_ticks.size), support_ticks)
-                ax.set_ylabel("window")
+                ax.set_xticklabels(ax.get_xticklabels(), rotation=50)
+                ax.set_ylabel("window", labelpad=10)
                 ax.set_yticks(np.arange(window_ticks.size), window_ticks)
+                ax.set_yticklabels(ax.get_yticklabels(), rotation=-30)
                 ax.set_zlabel("precision")  # type: ignore
                 ax.set_zlim((0, 1))  # type: ignore
             fig.savefig(results_folder / "precision.svg")
         finally:
             close(fig)
 
-        fig = figure(figsize=(8, 3))
+        fig = figure(figsize=(18, 4))
         try:
             for type_idx, (type, results) in enumerate(typed_results.items()):
                 data = defaultdict[str, list[float]](list)
@@ -305,11 +318,13 @@ def main() -> None:
                     shade=True,
                 )
 
-                ax.set_title(type)
-                ax.set_xlabel("support")
+                ax.set_title(TYPE_TO_NAME[type])
+                ax.set_xlabel("support", labelpad=10)
                 ax.set_xticks(np.arange(support_ticks.size), support_ticks)
-                ax.set_ylabel("window")
+                ax.set_xticklabels(ax.get_xticklabels(), rotation=50)
+                ax.set_ylabel("window", labelpad=10)
                 ax.set_yticks(np.arange(window_ticks.size), window_ticks)
+                ax.set_yticklabels(ax.get_yticklabels(), rotation=-30)
                 ax.set_zlabel("recall")  # type: ignore
                 ax.set_zlim((0, 1))  # type: ignore
             fig.savefig(results_folder / "recall.svg")
