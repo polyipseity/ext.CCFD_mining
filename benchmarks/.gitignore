@@ -1,4 +1,4 @@
-# https://github.com/github/gitignore/blob/9c2e50c7ccbf2f367f44e3c93e83934d12d67611/Python.gitignore {
+# <https://github.com/github/gitignore/blob/9c2e50c7ccbf2f367f44e3c93e83934d12d67611/Python.gitignore> {
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -204,7 +204,7 @@ __marimo__/
 .streamlit/secrets.toml
 # }
 
-# custom {
+# self {
 !CFDMiner_Graph_ccfd.txt
 !CFDMiner_ccfd.txt
 !FGC_Stream_CFDMiner_ccfd.txt
